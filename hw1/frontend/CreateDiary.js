@@ -34,14 +34,12 @@ function setupEventListeners() {
     }
     try {
       const todo = await createTodo({ title, description, taggs });
-      renderTodo(todo);
+      window.location.href = `BrowseDiary.html?id=${todo._id}`;
     } catch (error) {
+      console.log(error)
       alert("Failed to create todo!");
       return;
     }
-    todoInput.value = "";
-    todoDescriptionInput.value = "";
-    todoTaggsInput.value = "";
   });
 }
 
