@@ -34,7 +34,6 @@ export const createTodo = async (req, res) => {
       title,
       description,
       taggs,
-      completed: false,
     });
     return res.status(201).json(newTodo);
   } catch (error) {
@@ -45,7 +44,7 @@ export const createTodo = async (req, res) => {
 // Update a todo
 export const updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, taggs, description, completed } = req.body;
+  const { title, taggs, description} = req.body;
 
   try {
     // Check if the id is valid
@@ -58,7 +57,6 @@ export const updateTodo = async (req, res) => {
     if (title !== undefined) existedTodo.title = title;
     if (description !== undefined) existedTodo.description = description;
     if (taggs !== undefined) existedTodo.taggs = taggs;
-    if (completed !== undefined) existedTodo.completed = completed;
 
     // Save the updated todo
     await existedTodo.save();

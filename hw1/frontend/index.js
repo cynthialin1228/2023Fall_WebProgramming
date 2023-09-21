@@ -7,7 +7,7 @@ const instance = axios.create({
 });
 
 async function main() {
-  setupEventListeners();
+  // setupEventListeners();
   try {
     const todos = await getTodos();
     todos.forEach((todo) => renderTodo(todo));
@@ -17,32 +17,40 @@ async function main() {
 }
 
 function setupEventListeners() {
-  const addTodoButton = document.querySelector("#todo-add");
-  const todoInput = document.querySelector("#todo-input");
-  const todoDescriptionInput = document.querySelector(
-    "#todo-description-input",
-  );
-  addTodoButton.addEventListener("click", async () => {
-    const title = todoInput.value;
-    const description = todoDescriptionInput.value;
-    if (!title) {
-      alert("Please enter a todo title!");
-      return;
-    }
-    if (!description) {
-      alert("Please enter a todo description!");
-      return;
-    }
-    try {
-      const todo = await createTodo({ title, description });
-      renderTodo(todo);
-    } catch (error) {
-      alert("Failed to create todo!");
-      return;
-    }
-    todoInput.value = "";
-    todoDescriptionInput.value = "";
-  });
+  // const addTodoButton = document.querySelector("#todo-add");
+  // const todoInput = document.querySelector("#todo-input");
+  // const todoDescriptionInput = document.querySelector(
+  //   "#todo-description-input",
+  // );
+  // const todoTaggsInput = document.querySelector("#todo-taggs-input");
+  // addTodoButton.addEventListener("click", async () => {
+  //   const title = todoInput.value;
+  //   const description = todoDescriptionInput.value;
+  //   const taggs = todoTaggsInput.value;
+
+  //   if (!title) {
+  //     alert("Please enter a todo title!");
+  //     return;
+  //   }
+  //   if (!description) {
+  //     alert("Please enter a todo description!");
+  //     return;
+  //   }
+  //   if (!taggs){
+  //     alert("Please enter todo tags!");
+  //   }
+  //   try {
+  //     const todo = await createTodo({ title, description, taggs });
+  //     console.log("create Todo already")
+  //     renderTodo(todo);
+  //   } catch (error) {
+  //     alert("Failed to create todo!");
+  //     return;
+  //   }
+  //   todoInput.value = "";
+  //   todoDescriptionInput.value = "";
+  //   todoTaggsInput.value = "";
+  // });
 }
 
 function renderTodo(todo) {
@@ -55,17 +63,16 @@ function createTodoElement(todo) {
   const container = item.querySelector(".todo-item");
   container.id = todo.id;
   console.log(todo);
-  const checkbox = item.querySelector(`input[type="checkbox"]`);
-  checkbox.checked = todo.completed;
-  checkbox.dataset.id = todo.id;
   const title = item.querySelector("p.todo-title");
   title.innerText = todo.title;
   const description = item.querySelector("p.todo-description");
   description.innerText = todo.description;
-  const deleteButton = item.querySelector("button.delete-todo");
-  deleteButton.dataset.id = todo.id;
-  deleteButton.addEventListener("click", () => {
-    deleteTodoElement(todo.id);
+  const taggs = item.querySelector("p.todo-taggs");
+  taggs.innerText = todo.taggs;
+  const editDetails = item.querySelector("details.todo-item");
+  editDetails.dataset.id = todo.id;
+  editDetails.addEventListener("click", () => {
+    window.location.href = `EditDiary.html?id=${todo.id}`;
   });
   return item;
 }
@@ -86,12 +93,6 @@ async function getTodos() {
   return response.data;
 }
 
-async function createTodo(todo) {
-  const response = await instance.post("/todos", todo);
-  return response.data;
-}
-
-// eslint-disable-next-line no-unused-vars
 async function updateTodoStatus(id, todo) {
   const response = await instance.put(`/todos/${id}`, todo);
   return response.data;
