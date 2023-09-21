@@ -19,13 +19,13 @@ export const getTodos = async (req, res) => {
 };
 // Create a todo
 export const createTodo = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, taggs, description } = req.body;
 
   // Check title and description
-  if (!title || !description) {
+  if (!title || !description ||!taggs) {
     return res
       .status(400)
-      .json({ message: "Title and description are required!" });
+      .json({ message: "Date and description and tags are required!" });
   }
 
   // Create a new todo
@@ -33,6 +33,7 @@ export const createTodo = async (req, res) => {
     const newTodo = await TodoModel.create({
       title,
       description,
+      taggs,
       completed: false,
     });
     return res.status(201).json(newTodo);
@@ -44,7 +45,7 @@ export const createTodo = async (req, res) => {
 // Update a todo
 export const updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, description, completed } = req.body;
+  const { title, taggs, description, completed } = req.body;
 
   try {
     // Check if the id is valid
@@ -56,6 +57,7 @@ export const updateTodo = async (req, res) => {
     // Update the todo
     if (title !== undefined) existedTodo.title = title;
     if (description !== undefined) existedTodo.description = description;
+    if (taggs !== undefined) existedTodo.taggs = taggs;
     if (completed !== undefined) existedTodo.completed = completed;
 
     // Save the updated todo
