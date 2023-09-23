@@ -3,6 +3,7 @@ import {
   getTodos,
   updateTodo,
   deleteTodo,
+  getOneTodo,
 } from "../controllers/todo.js";
 import express from "express";
 
@@ -21,5 +22,6 @@ router.put("/:id", updateTodo);
 // DELETE /api/todos/:id
 router.delete("/:id", deleteTodo);
 
+router.get("/:id", getOneTodo);
 // export the router
 export default router;

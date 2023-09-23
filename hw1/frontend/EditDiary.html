@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Edit Diary</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="EditDiary.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"
+      integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <div id="todo-input-container">
+      <h1>Edit Diary</h1>
+      <a href="./BrowseDiary.html">
+        <button tabindex="3" class="todo-item">瀏覽模式</button>
+      </a>
+      <!-- <button id="todo-add" tabindex="3">新增日記卡</button> -->
+    </div>
+    <div id="todo-input-container">
+      <input type="text" id="todo-input" placeholder="new todo" tabindex="1" />
+      <textarea
+        id="todo-description-input"
+        tabindex="2"
+      ></textarea>
+      <textarea
+        id="todo-taggs-input"
+        placeholder="taggs"
+        tabindex="3"
+      ></textarea>
+    </div>
+    <a href="./BrowseDiary.html">
+      <button id="todo-edit" tabindex="4">儲存</button>
+    </a>
+    <a href="./index.html"> 
+      <button tabindex="5">取消</button>
+    </a>
+  </body>
+</html>

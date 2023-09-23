@@ -87,3 +87,19 @@ export const deleteTodo = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+
+export const getOneTodo = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Check if the id is valid
+    const existedTodo = await TodoModel.findById(id);
+    if (!existedTodo) {
+      return res.status(404).json({ message: "Todo not found!" });
+    }
+    return res.status(200).json(existedTodo);
+    
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
