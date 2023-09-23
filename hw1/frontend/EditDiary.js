@@ -104,6 +104,11 @@ function setupEventListeners(todoId) {
       alert("Please enter a todo title!");
       return;
     }
+    console.log(title)
+    const date = isValidDate(title)
+    if (!date) {
+      return;
+    }
     if (!description) {
       alert("Please enter a todo description!");
       return;
@@ -132,6 +137,23 @@ function setupEventListeners(todoId) {
       return;
     }
   })
+}
+
+function isValidDate(dateString) {
+  const datePattern = /^\d{4}\.\d{2}\.\d{2}\s\([\u4e00-\u9fa5]+\)$/;
+  if (!datePattern.test(dateString)) {
+    alert("Wrong date format. Use yyyy.mm.dd (day) format.");
+    return false;
+  }
+  const splitArray = dateString.split(/[\s.()]+/);
+  const [year, month, day] = [splitArray[0],splitArray[1],splitArray[2]]
+  console.log(`${month}/${day}/${year}`)
+  const date = new Date(year, month-1, day)
+  console.log({date})
+  if(!moment(`${month}/${day}/${year}`, 'MM/DD/YYYY', true).isValid()){
+    alert("Invalid date")
+  }
+  return date;
 }
 
 function populateTodoData(todo) {

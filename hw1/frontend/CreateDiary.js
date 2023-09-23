@@ -128,13 +128,14 @@ function isValidDate(dateString) {
     alert("Wrong date format. Use yyyy.mm.dd (day) format.");
     return false;
   }
-  const splitArray = dateString.split(/[\s.()]+/);
-  const [year, month, day] = [splitArray[0],splitArray[1]-1,splitArray[2]]
-  const date = new Date(year, month, day)
 
-  if(isNaN(Date.parse(`${year}-${month}-${day}`))){
-    alert("Nan")
-    return false;
+  const splitArray = dateString.split(/[\s.()]+/);
+  const [year, month, day] = [splitArray[0],splitArray[1],splitArray[2]]
+  console.log(`${month}/${day}/${year}`)
+  const date = new Date(year, month-1, day)
+  console.log({date})
+  if(!moment(`${month}/${day}/${year}`, 'MM/DD/YYYY', true).isValid()){
+    alert("Invalid date")
   }
   return date;
 }
