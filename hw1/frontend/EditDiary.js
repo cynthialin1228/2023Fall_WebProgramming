@@ -20,7 +20,9 @@ async function main() {
 
 function setupEventListeners(todoId) {
   const editTodoButton = document.querySelector("#todo-edit");
-  editTodoButton.dataset.id = todoId;
+  const todoInput = document.querySelector("#todo-input");
+  const todoDescriptionInput = document.querySelector("#todo-description-input");
+  const todoTaggsInput = document.querySelector("#todo-taggs-input");
   editTodoButton.addEventListener("click", async () => {
   const title = todoInput.value;
   const description = todoDescriptionInput.value;
@@ -42,8 +44,6 @@ function setupEventListeners(todoId) {
       console.log(todoId)
       console.log(todo.id)
       window.location.href = `BrowseDiary.html?id=${todo.id}`;
-
-      // renderTodo(todo);
     } catch (error) {
       alert("Failed to edit todo!");
       return;
