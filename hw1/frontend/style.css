@@ -47,8 +47,15 @@ textarea#todo-description-input {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
+  /* padding: 0 2rem; */
   gap: 1rem;
+}
+
+#todo-input-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  
 }
 
 .todo-item {
@@ -57,6 +64,7 @@ textarea#todo-description-input {
   padding: 0.5rem;
   border-radius: 1rem;
 }
+
 .todo-item summary {
   display: flex;
   align-items: center;
@@ -77,7 +85,8 @@ textarea#todo-description-input {
   font-size: 1rem;
   padding: 0 1rem;
 }
-.todo-taggs {
+.todo-taggs,
+.todo-tag2  {
   margin: 0;
   font-size: 1rem;
   padding: 0 1rem;
@@ -106,4 +115,4 @@ textarea#todo-description-input {
 }
 .todo-item button:hover {
   background-color: #f77;
-}
+} 

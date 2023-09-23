@@ -16,23 +16,34 @@
       <h1>Edit Diary</h1>
         <button tabindex="3" id="todo-item">取消（回瀏覽模式）</button>
     </div>
-    <div id="todo-input-container">
+    <div id="todo-input-container" class="vertical-align">
       <input type="text" id="todo-input" placeholder="new todo" tabindex="1" />
       <div><textarea
         id="todo-description-input"
         tabindex="2"
       ></textarea></div>
-      <div><select id="todo-taggs-input" multiple tabindex="3">
-        <option>學業</option>
-        <option>人際</option>
-        <option>社團</option>
-      </select></div>
-      <div><select id="todo-tag2-input" multiple tabindex="3">
-        <option>快樂</option>
-        <option>生氣</option>
-        <option>難過</option>
-      </select></div>
+      <div>
+        <label>類別</label>
+        <select id="todo-taggs-input" multiple tabindex="3">
+          <option>學業</option>
+          <option>人際</option>
+          <option>社團</option>
+        </select>
+        <input type="text" id="new-taggs" placeholder="其他類別">
+        <button id="add-taggs">Add 類別</button>
+      </div>
+      <div>
+        <label>心情</label>
+        <select id="todo-tag2-input" multiple tabindex="3">
+          <option>快樂</option>
+          <option>生氣</option>
+          <option>難過</option>
+        </select>
+        <input type="text" id="new-tag2" placeholder="其他心情">
+        <button id="add-tag2">Add 心情</button>
+      </div>
     </div>
+
       <button id="todo-edit" tabindex="4">儲存</button>
     <a href="./index.html"> 
       <button tabindex="5">回首頁</button>

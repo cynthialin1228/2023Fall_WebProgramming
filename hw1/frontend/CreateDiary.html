@@ -14,12 +14,10 @@
   <body>
     <div id="todo-input-container">
       <h1>Create Diary</h1>
-      <a href="./BrowseDiary.html">
         <button tabindex="3">瀏覽模式</button>
-      </a>
     </div>
 
-    <div id="todo-input-container">
+    <div id="todo-input-container" class="todo-input-container" >
       <input type="text" id="todo-input" class="todo-input" placeholder="yyyy.mm.dd (day of week)" tabindex="1" />
       <div>
       <textarea
@@ -29,16 +27,24 @@
       ></textarea>
       </div>
       <div>
+      <label>類別</label>
       <select id="todo-taggs-input" multiple tabindex="3">
         <option>學業</option>
         <option>人際</option>
         <option>社團</option>
       </select>
+      <input type="text" id="new-taggs" placeholder="其他類別">
+      <button id="add-taggs">Add 類別</button>
+      </div>
+      <div>
+      <label>心情</label>
       <select id="todo-tag2-input" multiple tabindex="3">
         <option>快樂</option>
         <option>生氣</option>
         <option>難過</option>
       </select>
+      <input type="text" id="new-tag2" placeholder="其他心情">
+      <button id="add-tag2">Add 心情</button>
       </div>
     </div>
     

@@ -25,6 +25,35 @@ function setupEventListeners(todoInput) {
   );
   const todoTaggsInput = document.querySelector("#todo-taggs-input");
   const todoTag2Input = document.querySelector("#todo-tag2-input");
+  
+  const newTaggsInput = document.getElementById("new-taggs");
+  const addTaggsButton = document.getElementById("add-taggs");
+  addTaggsButton.addEventListener("click", function () {
+    const newTaggs = newTaggsInput.value.trim();
+
+    if (newTaggs) {
+      const option = document.createElement("option");
+      option.value = newTaggs;
+      option.text = newTaggs;
+      todoTaggsInput.appendChild(option);
+      newTaggsInput.value = ""; // Clear the input field
+    }
+  });
+
+  const newTag2Input = document.getElementById("new-tag2");
+  const addTag2Button = document.getElementById("add-tag2");
+  addTag2Button.addEventListener("click", function () {
+    const newTag2 = newTag2Input.value.trim();
+
+    if (newTag2) {
+      const option = document.createElement("option");
+      option.value = newTag2;
+      option.text = newTag2;
+      todoTag2Input.appendChild(option);
+      newTag2Input.value = ""; // Clear the input field
+    }
+  });
+  
   addTodoButton.addEventListener("click", async () => {
     const title = todoInput.value;
     const description = todoDescriptionInput.value;
