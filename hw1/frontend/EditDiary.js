@@ -22,10 +22,12 @@ function setupEventListeners(todoId) {
   const todoInput = document.querySelector("#todo-input");
   const todoDescriptionInput = document.querySelector("#todo-description-input");
   const todoTaggsInput = document.querySelector("#todo-taggs-input");
+  const todoTag2Input = document.querySelector("#todo-tag2-input");
   editTodoButton.addEventListener("click", async () => {
   const title = todoInput.value;
   const description = todoDescriptionInput.value;
   const taggs = todoTaggsInput.value;
+  const tag2 = todoTag2Input.value;
 
     if (!title) {
       alert("Please enter a todo title!");
@@ -36,10 +38,13 @@ function setupEventListeners(todoId) {
       return;
     }
     if (!taggs){
-      alert("Please enter todo tags!");
+      alert("Please enter todo taggs!");
+    }
+    if (!tag2){
+      alert("Please enter todo tag2!");
     }
     try {
-      const todo = await updateTodoStatus(todoId, { title, description, taggs });
+      const todo = await updateTodoStatus(todoId, { title, description, taggs, tag2 });
       console.log(todoId)
       console.log(todo.id)
       window.location.href = `BrowseDiary.html?id=${todo.id}`;
@@ -62,10 +67,12 @@ function populateTodoData(todo) {
   const todoInput = document.querySelector("#todo-input");
   const todoDescriptionInput = document.querySelector("#todo-description-input");
   const todoTaggsInput = document.querySelector("#todo-taggs-input");
+  const todoTag2Input = document.querySelector("#todo-tag2-input");
 
   todoInput.value = todo.title;
   todoDescriptionInput.value = todo.description;
   todoTaggsInput.value = todo.taggs;
+  todoTag2Input.value = todo.tag2;
 }
 
 async function getOneTodo(id){

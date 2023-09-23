@@ -39,6 +39,8 @@ function createTodoElement(todo) {
   description.innerText = todo.description;
   const taggs = item.querySelector("p.todo-taggs");
   taggs.innerText = todo.taggs;
+  const tag2 = item.querySelector("p.todo-tag2");
+  tag2.innerText = todo.tag2;
   return item;
 }
 

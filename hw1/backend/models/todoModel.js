@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Create a schema
 const todoSchema = new mongoose.Schema(
   {
     title: {
@@ -8,7 +7,11 @@ const todoSchema = new mongoose.Schema(
       required: true,
     },
     taggs: {
-      type: [String],
+      type: String,
+      required: true,
+    },
+    tag2: {
+      type: String,
       required: true,
     },
     description: {
@@ -16,8 +19,6 @@ const todoSchema = new mongoose.Schema(
       required: true,
     },
   },
-  // The second argument is an options object.
-  // In this case, we want to rename _id to id and remove __v
   {
     toJSON: {
       transform(doc, ret) {

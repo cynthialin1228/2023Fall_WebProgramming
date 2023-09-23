@@ -21,16 +21,25 @@
 
     <div id="todo-input-container">
       <input type="text" id="todo-input" class="todo-input" placeholder="yyyy.mm.dd (day of week)" tabindex="1" />
+      <div>
       <textarea
         id="todo-description-input"
         placeholder="description"
         tabindex="2"
       ></textarea>
-      <textarea
-        id="todo-taggs-input"
-        placeholder="taggs"
-        tabindex="3"
-      ></textarea>
+      </div>
+      <div>
+      <select id="todo-taggs-input" multiple tabindex="3">
+        <option>學業</option>
+        <option>人際</option>
+        <option>社團</option>
+      </select>
+      <select id="todo-tag2-input" multiple tabindex="3">
+        <option>快樂</option>
+        <option>生氣</option>
+        <option>難過</option>
+      </select>
+      </div>
     </div>
     
       <button id="todo-add" tabindex="4">儲存</button>

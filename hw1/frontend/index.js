@@ -12,46 +12,11 @@ async function main() {
     const todos = await getTodos();
     todos.forEach((todo) => renderTodo(todo));
   } catch (error) {
+    console.log(error)
     alert("Failed to load todos!");
   }
 }
 
-function setupEventListeners() {
-  // const addTodoButton = document.querySelector("#todo-add");
-  // const todoInput = document.querySelector("#todo-input");
-  // const todoDescriptionInput = document.querySelector(
-  //   "#todo-description-input",
-  // );
-  // const todoTaggsInput = document.querySelector("#todo-taggs-input");
-  // addTodoButton.addEventListener("click", async () => {
-  //   const title = todoInput.value;
-  //   const description = todoDescriptionInput.value;
-  //   const taggs = todoTaggsInput.value;
-
-  //   if (!title) {
-  //     alert("Please enter a todo title!");
-  //     return;
-  //   }
-  //   if (!description) {
-  //     alert("Please enter a todo description!");
-  //     return;
-  //   }
-  //   if (!taggs){
-  //     alert("Please enter todo tags!");
-  //   }
-  //   try {
-  //     const todo = await createTodo({ title, description, taggs });
-  //     console.log("create Todo already")
-  //     renderTodo(todo);
-  //   } catch (error) {
-  //     alert("Failed to create todo!");
-  //     return;
-  //   }
-  //   todoInput.value = "";
-  //   todoDescriptionInput.value = "";
-  //   todoTaggsInput.value = "";
-  // });
-}
 
 function renderTodo(todo) {
   const item = createTodoElement(todo);
@@ -69,6 +34,8 @@ function createTodoElement(todo) {
   description.innerText = todo.description;
   const taggs = item.querySelector("p.todo-taggs");
   taggs.innerText = todo.taggs;
+  const tag2 = item.querySelector("p.todo-tag2");
+  tag2.innerText = todo.tag2;
   const editDetails = item.querySelector("details.todo-item");
   editDetails.dataset.id = todo.id;
   editDetails.addEventListener("click", () => {

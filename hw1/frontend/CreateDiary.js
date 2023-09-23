@@ -24,27 +24,31 @@ function setupEventListeners(todoInput) {
     "#todo-description-input",
   );
   const todoTaggsInput = document.querySelector("#todo-taggs-input");
+  const todoTag2Input = document.querySelector("#todo-tag2-input");
   addTodoButton.addEventListener("click", async () => {
     const title = todoInput.value;
     const description = todoDescriptionInput.value;
-    const taggs = todoTaggsInput.value;
+    const selectedTags = getSelectedTags(todoTaggsInput);
+    const selectedTag2 = getSelectedTag2(todoTag2Input);
 
     if (!title) {
       alert("Please enter a todo title!");
       return;
     }
-    if (!isValidDate(title)) {
+    const date = isValidDate(title)
+    if (!date) {
       return;
     }
     if (!description) {
       alert("Please enter a todo description!");
       return;
     }
-    if (!taggs){
-      alert("Please enter todo tags!");
+    if (selectedTags.length === 0) {
+      alert("Please select or create at least one tag!");
+      return;
     }
     try {
-      const todo = await createTodo({ title, description, taggs });
+      const todo = await createTodo({ title, description, taggs: selectedTags[0] , tag2:selectedTag2[0] });
       window.location.href = `BrowseDiary.html?id=${todo.id}`;
     } catch (error) {
       console.log(error)
@@ -60,14 +64,38 @@ function isValidDate(dateString) {
     alert("Wrong date format. Use yyyy.mm.dd (day) format.");
     return false;
   }
-  const [year, month, day] = dateString.split('.')[0].split(' ');
-  const date = new Date(`${month} ${day}, ${year}`);
-   
-  if (!isNaN(date) && date.getFullYear() == year && date.getMonth() + 1 == month && date.getDate() == day){
-    return true;
+  const splitArray = dateString.split(/[\s.()]+/);
+  const [year, month, day] = [splitArray[0],splitArray[1]-1,splitArray[2]]
+  const date = new Date(year, month, day)
+
+  if(isNaN(Date.parse(`${year}-${month}-${day}`))){
+    alert("Nan")
+    return false;
   }
-  alert("Wrong date");
-  return false;
+  return date;
+}
+
+function getSelectedTags(taggsInput) {
+  const selectedTags = [];
+  const options = taggsInput.options;
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].selected && options[i].value !== "create-new") {
+      selectedTags.push(options[i].value);
+    }
+  }
+  return selectedTags;
+}
+function getSelectedTag2(tag2Input) {
+  const selectedTag2 = [];
+  const options = tag2Input.options;
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].selected && options[i].value !== "create-new") {
+      selectedTag2.push(options[i].value);
+    }
+  }
+  return selectedTag2;
 }
 
 async function getTodos() {
