@@ -26,31 +26,73 @@ function setupEventListeners(todoId) {
   
   const newTaggsInput = document.getElementById("new-taggs");
   const addTaggsButton = document.getElementById("add-taggs");
+  const savedOptionsTaggs = JSON.parse(localStorage.getItem("customOptionsTaggs")) || [];
+  savedOptionsTaggs.forEach((optionText)=>{
+    const option = document.createElement("option");
+    option.value = optionText;
+    option.text = optionText;
+    todoTaggsInput.appendChild(option);
+  })
   addTaggsButton.addEventListener("click", function () {
     const newTaggs = newTaggsInput.value.trim();
 
     if (newTaggs) {
-      const option = document.createElement("option");
-      option.value = newTaggs;
-      option.text = newTaggs;
-      todoTaggsInput.appendChild(option);
-      newTaggsInput.value = ""; // Clear the input field
+      const existingOption = Array.from(todoTaggsInput.options).find(
+        (option) => option.value === newTaggs
+      );
+      if (!existingOption) {
+        const option = document.createElement("option");
+        option.value = newTaggs;
+        option.text = newTaggs;
+        todoTaggsInput.appendChild(option);
+        savedOptionsTaggs.push(newTaggs);
+        localStorage.setItem("customOptionsTaggs", JSON.stringify(savedOptionsTaggs))
+        newTaggsInput.value = "";
+      } else {
+        alert("Option already exists!");
+      }
     }
   });
-
+  
   const newTag2Input = document.getElementById("new-tag2");
   const addTag2Button = document.getElementById("add-tag2");
+  const savedOptionsTag2 = JSON.parse(localStorage.getItem("customOptionsTag2")) || [];
+  savedOptionsTag2.forEach((optionText)=>{
+    const option = document.createElement("option");
+    option.value = optionText;
+    option.text = optionText;
+    todoTag2Input.appendChild(option);
+  })
   addTag2Button.addEventListener("click", function () {
     const newTag2 = newTag2Input.value.trim();
-
+    
     if (newTag2) {
-      const option = document.createElement("option");
-      option.value = newTag2;
-      option.text = newTag2;
-      todoTag2Input.appendChild(option);
-      newTag2Input.value = ""; // Clear the input field
+      const existingOption = Array.from(todoTag2Input.options).find(
+        (option) => option.value === newTag2
+      );
+      if (!existingOption) {
+        const option = document.createElement("option");
+        option.value = newTag2;
+        option.text = newTag2;
+        todoTag2Input.appendChild(option);
+        savedOptionsTag2.push(newTag2);
+        localStorage.setItem("customOptionsTag2", JSON.stringify(savedOptionsTag2))
+        newTag2Input.value = "";
+      } else {
+        alert("Option already exists!");
+      }
     }
   });
+  // Array.from(todoTaggsInput.options).forEach((option) => {
+  //   if (!savedOptionsTaggs.includes(option.value)) {
+  //     todoTaggsInput.removeChild(option);
+  //   }
+  // });
+  // Array.from(todoTag2Input.options).forEach((option) => {
+  //   if (!savedOptionsTag2.includes(option.value)) {
+  //     todoTag2Input.removeChild(option);
+  //   }
+  // });
   
   editTodoButton.addEventListener("click", async () => {
   const title = todoInput.value;
@@ -97,7 +139,6 @@ function populateTodoData(todo) {
   const todoDescriptionInput = document.querySelector("#todo-description-input");
   const todoTaggsInput = document.querySelector("#todo-taggs-input");
   const todoTag2Input = document.querySelector("#todo-tag2-input");
-
   todoInput.value = todo.title;
   todoDescriptionInput.value = todo.description;
   todoTaggsInput.value = todo.taggs;
