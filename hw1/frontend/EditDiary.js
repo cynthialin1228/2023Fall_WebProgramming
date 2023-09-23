@@ -1,6 +1,4 @@
 /* global axios */
-const urlParams = new URLSearchParams(window.location.search);
-const todoId = urlParams.get("id");
 const itemTemplate = document.querySelector("#todo-item-template");
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
@@ -20,6 +18,7 @@ async function main() {
 
 function setupEventListeners(todoId) {
   const editTodoButton = document.querySelector("#todo-edit");
+  const goBrowseTodoButton = document.querySelector("#todo-item");
   const todoInput = document.querySelector("#todo-input");
   const todoDescriptionInput = document.querySelector("#todo-description-input");
   const todoTaggsInput = document.querySelector("#todo-taggs-input");
@@ -49,6 +48,14 @@ function setupEventListeners(todoId) {
       return;
     }
   });
+  goBrowseTodoButton.addEventListener("click", async () => {
+    try{
+      window.location.href = `BrowseDiary.html?id=${todoId}`;
+    }catch(error){
+      alert("Failed to go to browse mode!");
+      return;
+    }
+  })
 }
 
 function populateTodoData(todo) {

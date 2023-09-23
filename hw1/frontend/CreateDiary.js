@@ -34,7 +34,7 @@ function setupEventListeners() {
     }
     try {
       const todo = await createTodo({ title, description, taggs });
-      window.location.href = `BrowseDiary.html?id=${todo._id}`;
+      window.location.href = `BrowseDiary.html?id=${todo.id}`;
     } catch (error) {
       console.log(error)
       alert("Failed to create todo!");
