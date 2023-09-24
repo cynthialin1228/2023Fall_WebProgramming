@@ -1,7 +1,7 @@
 /* global axios */
 const itemTemplate = document.querySelector("#todo-item-template");
 const todoList = document.querySelector("#todos");
-
+const tagFilter = document.querySelector("#tag-filter");
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
 });
@@ -11,9 +11,32 @@ async function main() {
   try {
     const todos = await getTodos();
     todos.forEach((todo) => renderTodo(todo));
+    setupEventListeners();
   } catch (error) {
     console.log(error)
     alert("Failed to load todos!");
+  }
+}
+function setupEventListeners() {
+  tagFilter.addEventListener("change", async () => {
+    const selectedFilter = tagFilter.value;
+    const todos = await getTodos();
+    const filteredTodos = filterTodos(todos, selectedFilter);
+    clearTodoList();
+    filteredTodos.forEach((todo) => renderTodo(todo));
+  });
+}
+
+function filterTodos(todos, filter) {
+  if (!filter) {
+    return todos;
+  }
+  return todos.filter((todo) => todo.taggs === filter || todo.tag2 === filter);
+}
+
+function clearTodoList() {
+  while (todoList.firstChild) {
+    todoList.removeChild(todoList.firstChild);
   }
 }
 
@@ -27,7 +50,6 @@ function createTodoElement(todo) {
   const item = itemTemplate.content.cloneNode(true);
   const container = item.querySelector(".todo-item");
   container.id = todo.id;
-  console.log(todo);
   const title = item.querySelector("p.todo-title");
   title.innerText = todo.title;
   const description = item.querySelector("p.todo-description");
