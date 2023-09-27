@@ -149,7 +149,7 @@ function isValidDate(dateString) {
   console.log(`${month}/${day}/${year}`)
   const date = new Date(year, month-1, day)
   console.log({date})
-  if(!(`${month}/${day}/${year}`, 'MM/DD/YYYY', true).isValid()){
+  if(!moment(`${month}/${day}/${year}`, 'MM/DD/YYYY', true).isValid()){
     alert("Invalid date")
   }
   return date;
