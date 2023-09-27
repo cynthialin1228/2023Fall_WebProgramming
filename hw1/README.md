@@ -20,11 +20,11 @@
     * finished all input, click "儲存" and go to browse page
     * if you don't want to keep this diary, ckick "取消“ and go back to the main page.
 ##### Browse page:
-    * press 編輯模式 to edit the specific diary
+* press 編輯模式 to edit the specific diary
 ##### Edit page:
-    * remember to choose taggs for 類別, and tag2 for 心情.
-    * click "儲存" save edits and go to browse page
-    * click "回瀏覽模式“ to save no modificatioins and go to browse page
-    * click "回首頁" to go back to the main page.
+* remember to choose taggs for 類別, and tag2 for 心情.
+* click "儲存" save edits and go to browse page
+* click "回瀏覽模式“ to save no modificatioins and go to browse page
+* click "回首頁" to go back to the main page.
     
     
