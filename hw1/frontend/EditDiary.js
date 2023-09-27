@@ -1,5 +1,4 @@
 /* global axios */
-const itemTemplate = document.querySelector("#todo-item-template");
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
 });

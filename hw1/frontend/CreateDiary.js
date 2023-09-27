@@ -1,6 +1,4 @@
 /* global axios */
-const itemTemplate = document.querySelector("#todo-item-template");
-const todoList = document.querySelector("#todos");
 
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
@@ -163,10 +161,6 @@ function getSelectedTag2(tag2Input) {
   return selectedTag2;
 }
 
-async function getTodos() {
-  const response = await instance.get("/todos");
-  return response.data;
-}
 
 async function createTodo(todo) {
   const response = await instance.post("/todos", todo);

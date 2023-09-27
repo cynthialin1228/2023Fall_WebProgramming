@@ -44,28 +44,8 @@ function createTodoElement(todo) {
   return item;
 }
 
-async function deleteTodoElement(id) {
-  try {
-    await deleteTodoById(id);
-  } catch (error) {
-    alert("Failed to delete todo!");
-  } finally {
-    const todo = document.getElementById(id);
-    todo.remove();
-  }
-}
 async function getOneTodo(id){
   const response = await instance.get(`/todos/${id}`);
-  return response.data;
-}
-
-async function getTodos() {
-  const response = await instance.get(`/todos`);
-  return response.data;
-}
-
-async function updateTodoStatus(id, todo) {
-  const response = await instance.put(`/todos/${id}`, todo);
   return response.data;
 }
 
