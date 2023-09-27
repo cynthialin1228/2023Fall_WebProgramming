@@ -49,9 +49,4 @@ async function getOneTodo(id){
   return response.data;
 }
 
-async function deleteTodoById(id) {
-  const response = await instance.delete(`/todos/${id}`);
-  return response.data;
-}
-
 main();
