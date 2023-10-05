@@ -44,7 +44,7 @@ function App() {
           </div> 
           </div>
 
-      <main className="mx-auto flex max-h-full flex-row gap-6 px-24 py-12">
+      <main className="mx-auto grid max-h-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-24 py-12">
         {lists.map((list) => (
           <CardList key={list.id} {...list} />
         ))}
