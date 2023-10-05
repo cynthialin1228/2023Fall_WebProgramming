@@ -20,20 +20,35 @@ function App() {
   return (
     <>
       <HeaderBar />
+      <div className="flex mr-4 justify-center">
+          <span className="text-2xl mr-4">My Playlists</span>
+          <div>
+              <Button
+                variant="contained"
+                className="w-80 mr-4"
+                onClick={() => setNewListDialogOpen(true)}
+              >
+                <AddIcon className="mr-2" />
+                Add a playlist
+              </Button>
+          </div>
+          <div>
+              <Button
+                variant="contained"
+                className="w-80 mr-4"
+                // onClick={() => setNewListDialogOpen(true)}
+              >
+                <AddIcon className="mr-2" />
+                Delete
+              </Button>
+          </div> 
+          </div>
+
       <main className="mx-auto flex max-h-full flex-row gap-6 px-24 py-12">
         {lists.map((list) => (
           <CardList key={list.id} {...list} />
         ))}
-        <div>
-          <Button
-            variant="contained"
-            className="w-80"
-            onClick={() => setNewListDialogOpen(true)}
-          >
-            <AddIcon className="mr-2" />
-            Add a list
-          </Button>
-        </div>
+        
         <NewListDialog
           open={newListDialogOpen}
           onClose={() => setNewListDialogOpen(false)}
