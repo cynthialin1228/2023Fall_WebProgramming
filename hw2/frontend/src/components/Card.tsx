@@ -25,6 +25,9 @@ export default function Card({ id, title, description, singer, lin, listId }: Ca
       <button onClick={handleClickOpen} className="text-start">
         <Paper className="flex w-full flex-col p-2" elevation={6}>
           {title}
+          {description}
+          {singer}
+          {lin}
         </Paper>
       </button>
       <CardDialog
