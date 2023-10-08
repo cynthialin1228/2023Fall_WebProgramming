@@ -45,7 +45,7 @@ function App() {
 
       <main className="mx-auto grid max-h-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-24 py-12">
         {lists.map((list) => (
-          <Playlists key={list.id} {...list} showDeleteIcon={showDeleteIcon} />
+          <CardList key={list.id} {...list} showDeleteIcon={showDeleteIcon} />
         ))}
         
         <NewListDialog

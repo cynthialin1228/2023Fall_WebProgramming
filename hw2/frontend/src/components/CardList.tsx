@@ -32,6 +32,7 @@ export default function CardList({ id, name, description, photo, cards, showDele
   const [editingName, setEditingName] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [editingPhoto, setEditingPhoto] = useState(false);
+  const [editingCards, setEditingCards] = useState(false);
   // const [editingNumCards, setEditingNumCards] = useState(false);
   const { fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -94,7 +95,14 @@ export default function CardList({ id, name, description, photo, cards, showDele
   return (
     <>
       <Paper className="w-80 p-6">
-       <div className="flex gap-4">
+        <Button sx={{ backgroundColor: 'green', '&:hover': { backgroundColor: 'darkgreen' } }} onClick={()=>setEditingCards(!editingCards)}> {editingCards ? "Done" : "Edit Playlist"} </Button>
+            {showDeleteIcon && ( // Conditional rendering of the delete icon
+              <IconButton color="error" onClick={handleDelete}>
+                <DeleteIcon />
+              </IconButton>
+            )}
+        <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
+        <div className="flex gap-4">
        {editingPhoto ? (
             <ClickAwayListener onClickAway={handleUpdatePhoto}>
               <Input
@@ -170,16 +178,9 @@ export default function CardList({ id, name, description, photo, cards, showDele
               </Typography>
             </button>
           )} */}
-          <div className="grid place-items-center">
-            {showDeleteIcon && ( // Conditional rendering of the delete icon
-              <IconButton color="error" onClick={handleDelete}>
-                <DeleteIcon />
-              </IconButton>
-            )}
-          </div>
         </div>
         <div>{cards.length} songs</div>
-        <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
+        {editingCards && (     
         <div className="flex flex-col gap-4">
           {cards.map((card) => (
             <Card key={card.id} {...card} />
@@ -191,7 +192,7 @@ export default function CardList({ id, name, description, photo, cards, showDele
             <AddIcon className="mr-2" />
             Add a card
           </Button>
-        </div>
+        </div>)}
       </Paper>
       <CardDialog
         variant="new"
