@@ -33,7 +33,6 @@ type EditCardDialogProps = {
   listId: string;
   cardId: string;
   title: string;
-  description: string;
   singer: string;
   lin: string;
 };
@@ -43,13 +42,9 @@ type CardDialogProps = NewCardDialogProps | EditCardDialogProps;
 export default function CardDialog(props: CardDialogProps) {
   const { variant, open, onClose, listId } = props;
   const title = variant === "edit" ? props.title : "";
-  const description = variant === "edit" ? props.description : "";
   const singer = variant === "edit" ? props.singer : "";
   const lin = variant === "edit" ? props.lin : "";
   const [editingTitle, setEditingTitle] = useState(variant === "new");
-  const [editingDescription, setEditingDescription] = useState(
-    variant === "new",
-  );
   const [editingSinger, setEditingSinger] = useState(variant === "new");
   const [editingLin, setEditingLin] = useState(variant === "new");
 
@@ -57,7 +52,6 @@ export default function CardDialog(props: CardDialogProps) {
   // however, this method is not recommended for large forms, as it will cause a re-render on every change
   // you can read more about it here: https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
   const [newTitle, setNewTitle] = useState(title);
-  const [newDescription, setNewDescription] = useState(description);
   const [newSinger, setNewSinger] = useState(singer);
   const [newLin, setNewLin] = useState(lin);
   const [newListId, setNewListId] = useState(listId);
@@ -68,7 +62,6 @@ export default function CardDialog(props: CardDialogProps) {
     onClose();
     if (variant === "edit") {
       setNewTitle(title);
-      setNewDescription(description);
       setNewSinger(singer);
       setNewLin(lin);
       setNewListId(listId);
@@ -80,7 +73,6 @@ export default function CardDialog(props: CardDialogProps) {
       if (variant === "new") {
         await createCard({
           title: newTitle,
-          description: newDescription,
           singer: newSinger,
           lin: newLin,
           list_id: listId,
@@ -88,7 +80,6 @@ export default function CardDialog(props: CardDialogProps) {
       } else {
         if (
           newTitle === title &&
-          newDescription === description &&
           newSinger === singer &&
           newLin === lin &&
           newListId === listId
@@ -99,7 +90,6 @@ export default function CardDialog(props: CardDialogProps) {
         // therefore props.cardId is a valid value
         await updateCard(props.cardId, {
           title: newTitle,
-          description: newDescription,
           singer: newSinger,
           lin: newLin,
           list_id: newListId,
@@ -171,30 +161,6 @@ export default function CardDialog(props: CardDialogProps) {
         )}
       </DialogTitle>
       <DialogContent className="w-[600px]">
-        {editingDescription ? (
-          <ClickAwayListener
-            onClickAway={() => {
-              if (variant === "edit") {
-                setEditingDescription(false);
-              }
-            }}
-          >
-            <textarea
-              className="bg-white/0 p-2"
-              autoFocus
-              defaultValue={description}
-              placeholder="Add a more detailed description..."
-              onChange={(e) => setNewDescription(e.target.value)}
-            />
-          </ClickAwayListener>
-        ) : (
-          <button
-            onClick={() => setEditingDescription(true)}
-            className="w-full rounded-md p-2 hover:bg-white/10"
-          >
-            <Typography className="text-start">{newDescription}</Typography>
-          </button>
-        )}
         {editingSinger ? (
           <ClickAwayListener 
             onClickAway={() => {

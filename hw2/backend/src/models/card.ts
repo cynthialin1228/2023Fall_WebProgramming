@@ -18,10 +18,6 @@ const CardSchema = new mongoose.Schema<CardDocument>(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
     singer: {
       type: String,
       required: false,
