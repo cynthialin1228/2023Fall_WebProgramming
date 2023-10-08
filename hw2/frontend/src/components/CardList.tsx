@@ -22,11 +22,12 @@ export type CardListProps = {
   name: string;
   description: string;
   photo: string;
+  showDeleteIcon: boolean;
   // num_cards: number;
   cards: CardProps[];
 };
 
-export default function CardList({ id, name, description, photo, cards }: CardListProps) {
+export default function CardList({ id, name, description, photo, cards, showDeleteIcon }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
@@ -169,11 +170,12 @@ export default function CardList({ id, name, description, photo, cards }: CardLi
               </Typography>
             </button>
           )} */}
-          
           <div className="grid place-items-center">
-            <IconButton color="error" onClick={handleDelete}>
-              <DeleteIcon />
-            </IconButton>
+            {showDeleteIcon && ( // Conditional rendering of the delete icon
+              <IconButton color="error" onClick={handleDelete}>
+                <DeleteIcon />
+              </IconButton>
+            )}
           </div>
         </div>
         <div>{cards.length} songs</div>
