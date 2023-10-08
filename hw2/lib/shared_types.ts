@@ -13,12 +13,17 @@ export type CardData = {
   id: string;
   title: string;
   description: string;
+  singer: string;
+  lin: string;
   list_id: string;
 };
 
 export type ListData = {
   id: string;
   name: string;
+  description: string;
+  photo: string;
+  // num_cards: number;
   cards: CardData[];
 };
 

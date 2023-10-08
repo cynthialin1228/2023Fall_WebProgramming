@@ -22,6 +22,16 @@ const CardSchema = new mongoose.Schema<CardDocument>(
       type: String,
       required: true,
     },
+    singer: {
+      type: String,
+      required: false,
+      // required: true,
+    },
+    lin: {
+      type: String,
+      required: false,
+      // required: true,
+    },
     list_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "List",

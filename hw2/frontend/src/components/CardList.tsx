@@ -20,14 +20,21 @@ import CardDialog from "./CardDialog";
 export type CardListProps = {
   id: string;
   name: string;
+  description: string;
+  photo: string;
+  // num_cards: number;
   cards: CardProps[];
 };
 
-export default function CardList({ id, name, cards }: CardListProps) {
+export default function CardList({ id, name, description, photo, cards }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [editingName, setEditingName] = useState(false);
+  const [editingDescription, setEditingDescription] = useState(false);
+  const [editingPhoto, setEditingPhoto] = useState(false);
+  // const [editingNumCards, setEditingNumCards] = useState(false);
   const { fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputRefDes = useRef<HTMLInputElement>(null);
 
   const handleUpdateName = async () => {
     if (!inputRef.current) return;
@@ -43,6 +50,36 @@ export default function CardList({ id, name, cards }: CardListProps) {
     }
     setEditingName(false);
   };
+  
+  const handleUpdateDescription = async () => {
+    if (!inputRefDes.current) return;
+
+    const newDescription = inputRefDes.current.value;
+    if (newDescription !== description) {
+      try {
+        await updateList(id, { description: newDescription });
+        fetchLists();
+      } catch (error) {
+        alert("Error: Failed to update list description");
+      }
+    }
+    setEditingDescription(false);
+  }
+
+  const handleUpdatePhoto = async () => {
+    if (!inputRef.current) return;
+
+    const newPhoto = inputRef.current.value;
+    if (newPhoto !== photo) {
+      try {
+        await updateList(id, { photo: newPhoto });
+        fetchLists();
+      } catch (error) {
+        alert("Error: Failed to update list photo");
+      }
+    }
+    setEditingPhoto(false);
+  }
 
   const handleDelete = async () => {
     try {
@@ -56,7 +93,37 @@ export default function CardList({ id, name, cards }: CardListProps) {
   return (
     <>
       <Paper className="w-80 p-6">
-        <div className="flex gap-4">
+       <div className="flex gap-4">
+       {editingPhoto ? (
+            <ClickAwayListener onClickAway={handleUpdatePhoto}>
+              <Input
+                autoFocus
+                defaultValue={photo}
+                className="grow"
+                placeholder="Enter a new photo for this list..."
+                sx={{ fontSize: "2rem" }}
+                inputRef={inputRef}
+              />
+            </ClickAwayListener>
+          ) : (
+            <div>
+              <button
+                onClick={() => setEditingPhoto(true)}
+                className="w-full rounded-md p-2 hover:bg-white/10"
+              >
+                <img
+                  src={photo}
+                  alt="List Photo"
+                  style={{ width: "100px", height: "100px" }} // Adjust width and height as needed
+                />
+                {/* <Typography className="text-start" variant="h4">
+                  {photo}
+                </Typography> */}
+              </button>
+            </div>
+          )}
+        </div>
+       <div className="flex gap-4">
           {editingName ? (
             <ClickAwayListener onClickAway={handleUpdateName}>
               <Input
@@ -78,12 +145,38 @@ export default function CardList({ id, name, cards }: CardListProps) {
               </Typography>
             </button>
           )}
+          
+
+
+          {/* {editingDescription ? (
+            <ClickAwayListener onClickAway={handleUpdateDescription}>
+              <Input
+                autoFocus
+                defaultValue={description}
+                className="grow"
+                placeholder="Enter a new description for this list..."
+                sx={{ fontSize: "2rem" }}
+                inputRef={inputRef}
+              />
+            </ClickAwayListener>
+          ) : (
+            <button
+              onClick={() => setEditingDescription(true)}
+              className="w-full rounded-md p-2 hover:bg-white/10"
+            >
+              <Typography className="text-start" variant="h4">
+                {description}
+              </Typography>
+            </button>
+          )} */}
+          
           <div className="grid place-items-center">
             <IconButton color="error" onClick={handleDelete}>
               <DeleteIcon />
             </IconButton>
           </div>
         </div>
+        <div>{cards.length} songs</div>
         <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
         <div className="flex flex-col gap-4">
           {cards.map((card) => (

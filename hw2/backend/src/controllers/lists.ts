@@ -21,6 +21,9 @@ export const getLists = async (_: Request, res: Response<GetListsResponse>) => {
       return {
         id: list.id,
         name: list.name,
+        description: list.description,
+        photo: list.photo,
+        // num_cards: list.num_cards,
       };
     });
 
@@ -45,6 +48,9 @@ export const getList = async (
     return res.status(200).json({
       id: lists.id,
       name: lists.name,
+      description: lists.description,
+      photo: lists.photo,
+      // num_cards: lists.num_cards,
       cards: lists.cards as unknown as CardData[],
     });
   } catch (error) {
@@ -73,12 +79,18 @@ export const updateList = async (
   try {
     const { id } = req.params;
     const { name } = req.body;
+    const { description } = req.body;
+    const { photo } = req.body;
+    // const { num_cards } = req.body;
 
     // Update the list
     const newList = await ListModel.findByIdAndUpdate(
       id,
       {
         name: name,
+        description: description,
+        photo: photo,
+        // num_cards: num_cards,
       },
       { new: true },
     );

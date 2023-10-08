@@ -18,6 +18,21 @@ const ListSchema = new mongoose.Schema<ListDocument>(
       type: String,
       required: true,
     },
+    description:{
+      type: String,
+      required: false,
+      // required: true,
+    },
+    photo:{
+      type: String,
+      required: false,
+      // required: true,
+    },
+    // num_cards:{
+    //   type: Number,
+    //   required: false,
+    //   // required: true,
+    // },
     cards: [
       {
         type: mongoose.Schema.Types.ObjectId,
