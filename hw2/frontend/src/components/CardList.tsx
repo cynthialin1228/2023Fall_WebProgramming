@@ -11,11 +11,10 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import useCards from "@/hooks/useCards";
 import { deleteList, updateList } from "@/utils/client";
-
+import { deleteCard } from "@/utils/client";
 import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
-
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -42,7 +41,7 @@ export default function CardList({ id, name, description, photo, cards, showDele
   const [editingDescription, setEditingDescription] = useState(false);
   const [editingPhoto, setEditingPhoto] = useState(false);
   const [editingCards, setEditingCards] = useState(false);
-  const { fetchLists } = useCards();
+  const {fetchCards, fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefDes = useRef<HTMLInputElement>(null);
   const handleUpdateName = async () => {
@@ -105,6 +104,34 @@ export default function CardList({ id, name, description, photo, cards, showDele
     }
     setEditingPhoto(false);
   }
+  const handleDeleteSelectedCards = async () => {
+    if (selectedCards.length === 0) {
+      alert("Please select at least one card to delete.");
+      return;
+    }
+    const selectedCardDetails = selectedCards.map((cardId) => {
+      const card = cards.find((c) => c.id === cardId);
+      if (card) {
+        return `Title: ${card.title}, Singer: ${card.singer}, Link: ${card.lin}`;
+      }
+      return '';
+    }).join('\n');
+    const confirmed = window.confirm(`Are you sure you want to delete the selected cards?\n\n${selectedCardDetails}`);
+  
+    if (!confirmed) {
+      return;
+    }
+    
+    try {
+      while(selectedCards.length > 0){
+        await deleteCard(selectedCards[0]);
+        fetchCards();
+        selectedCards.shift();
+      }
+    } catch (error) {
+      alert("Error: Failed to delete selected cards");
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -260,7 +287,19 @@ export default function CardList({ id, name, description, photo, cards, showDele
             <AddIcon className="mr-2" />
             Add a card
           </Button>
-        </div>)}
+        </div>)
+        }
+        {editingCards && (     
+        <div className="flex flex-col gap-4">
+          <Button
+            variant="contained"
+            onClick={handleDeleteSelectedCards}
+          >
+            <DeleteIcon className="mr-2" />
+            Delete selected cards
+          </Button>
+        </div>)
+        }
       </Paper>
       <CardDialog
         variant="new"
