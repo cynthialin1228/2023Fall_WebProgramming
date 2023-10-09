@@ -20,19 +20,13 @@ const ListSchema = new mongoose.Schema<ListDocument>(
     },
     description:{
       type: String,
-      required: false,
-      // required: true,
+      required: true,
     },
     photo:{
       type: String,
-      required: false,
-      // required: true,
+      required: true,
     },
-    // num_cards:{
-    //   type: Number,
-    //   required: false,
-    //   // required: true,
-    // },
+
     cards: [
       {
         type: mongoose.Schema.Types.ObjectId,

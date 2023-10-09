@@ -22,14 +22,12 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
-import "./table.css";
 export type CardListProps = {
   id: string;
   name: string;
   description: string;
   photo: string;
   showDeleteIcon: boolean;
-  // num_cards: number;
   cards: CardProps[];
 };
 

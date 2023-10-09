@@ -20,13 +20,11 @@ const CardSchema = new mongoose.Schema<CardDocument>(
     },
     singer: {
       type: String,
-      required: false,
-      // required: true,
+      required: true,
     },
     lin: {
       type: String,
-      required: false,
-      // required: true,
+      required: true,
     },
     list_id: {
       type: mongoose.Schema.Types.ObjectId,

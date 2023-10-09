@@ -22,7 +22,6 @@ export type ListData = {
   name: string;
   description: string;
   photo: string;
-  // num_cards: number;
   cards: CardData[];
 };
 

@@ -23,7 +23,6 @@ export const getLists = async (_: Request, res: Response<GetListsResponse>) => {
         name: list.name,
         description: list.description,
         photo: list.photo,
-        // num_cards: list.num_cards,
       };
     });
 
@@ -50,7 +49,6 @@ export const getList = async (
       name: lists.name,
       description: lists.description,
       photo: lists.photo,
-      // num_cards: lists.num_cards,
       cards: lists.cards as unknown as CardData[],
     });
   } catch (error) {
@@ -81,7 +79,6 @@ export const updateList = async (
     const { name } = req.body;
     const { description } = req.body;
     const { photo } = req.body;
-    // const { num_cards } = req.body;
 
     // Update the list
     const newList = await ListModel.findByIdAndUpdate(
@@ -90,7 +87,6 @@ export const updateList = async (
         name: name,
         description: description,
         photo: photo,
-        // num_cards: num_cards,
       },
       { new: true },
     );
