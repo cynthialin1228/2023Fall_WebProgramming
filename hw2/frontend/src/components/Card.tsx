@@ -1,7 +1,5 @@
 import { useState } from "react";
-
-import { Paper } from "@mui/material";
-
+import Button from "@mui/material/Button";
 import CardDialog from "./CardDialog";
 
 export type CardProps = {
@@ -21,13 +19,9 @@ export default function Card({ id, title, singer, lin, listId }: CardProps) {
 
   return (
     <>
-      <button onClick={handleClickOpen} className="text-start">
-        <Paper className="flex w-full flex-col p-2" elevation={6}>
-          {title}
-          {singer}
-          {lin}
-        </Paper>
-      </button>
+      <Button onClick={handleClickOpen} className="text-start">
+        Edit Card
+      </Button>
       <CardDialog
         variant="edit"
         open={open}

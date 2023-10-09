@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-
 import useCards from "@/hooks/useCards";
 import { deleteList, updateList } from "@/utils/client";
 
@@ -17,6 +16,14 @@ import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
 
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import Checkbox from '@mui/material/Checkbox';
+import "./table.css";
 export type CardListProps = {
   id: string;
   name: string;
@@ -28,16 +35,16 @@ export type CardListProps = {
 };
 
 export default function CardList({ id, name, description, photo, cards, showDeleteIcon }: CardListProps) {
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [editingPhoto, setEditingPhoto] = useState(false);
   const [editingCards, setEditingCards] = useState(false);
-  // const [editingNumCards, setEditingNumCards] = useState(false);
   const { fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefDes = useRef<HTMLInputElement>(null);
-
   const handleUpdateName = async () => {
     if (!inputRef.current) return;
 
@@ -52,7 +59,23 @@ export default function CardList({ id, name, description, photo, cards, showDele
     }
     setEditingName(false);
   };
-  
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedCards([]); // Clear the selected cards if "Select All" is unchecked
+    } else {
+      setSelectedCards(cards.map((card) => card.id)); // Select all cards when "Select All" is checked
+    }
+    setSelectAll(!selectAll); // Toggle the "Select All" state
+  };
+
+  const handleCardSelect = (cardId: string) => {
+    if (selectedCards.includes(cardId)) {
+      setSelectedCards(selectedCards.filter((id) => id !== cardId));
+    } else {
+      setSelectedCards([...selectedCards, cardId]);
+    }
+  };
+
   const handleUpdateDescription = async () => {
     if (!inputRefDes.current) return;
 
@@ -94,7 +117,7 @@ export default function CardList({ id, name, description, photo, cards, showDele
 
   return (
     <>
-      <Paper className="w-80 p-6">
+      <Paper className="w-180 p-6">
         <Button sx={{ backgroundColor: 'green', '&:hover': { backgroundColor: 'darkgreen' } }} onClick={()=>setEditingCards(!editingCards)}> {editingCards ? "Done" : "Edit Playlist"} </Button>
             {showDeleteIcon && ( // Conditional rendering of the delete icon
               <IconButton color="error" onClick={handleDelete}>
@@ -116,7 +139,7 @@ export default function CardList({ id, name, description, photo, cards, showDele
             </ClickAwayListener>
           ) : (
             <div>
-              <button
+              {editingCards? (<button
                 onClick={() => setEditingPhoto(true)}
                 className="w-full rounded-md p-2 hover:bg-white/10"
               >
@@ -125,10 +148,11 @@ export default function CardList({ id, name, description, photo, cards, showDele
                   alt="List Photo"
                   style={{ width: "100px", height: "100px" }} // Adjust width and height as needed
                 />
-                {/* <Typography className="text-start" variant="h4">
-                  {photo}
-                </Typography> */}
-              </button>
+              </button>):(<img
+                  src={photo}
+                  alt="List Photo"
+                  style={{ width: "100px", height: "100px" }} // Adjust width and height as needed
+                />)}
             </div>
           )}
         </div>
@@ -145,46 +169,90 @@ export default function CardList({ id, name, description, photo, cards, showDele
               />
             </ClickAwayListener>
           ) : (
-            <button
+            <div>
+              {editingCards?(<button
               onClick={() => setEditingName(true)}
               className="w-full rounded-md p-2 hover:bg-white/10"
             >
               <Typography className="text-start" variant="h4">
                 {name}
               </Typography>
-            </button>
+            </button>):(<Typography className="text-start" variant="h4">
+                {name}
+              </Typography>)}
+            
+            </div>
           )}
-          
-
-
-          {/* {editingDescription ? (
+        </div>
+        <div className="flex gap-4">
+          {editingDescription ? (
             <ClickAwayListener onClickAway={handleUpdateDescription}>
               <Input
                 autoFocus
                 defaultValue={description}
                 className="grow"
-                placeholder="Enter a new description for this list..."
+                placeholder="Enter a new des for this list..."
                 sx={{ fontSize: "2rem" }}
-                inputRef={inputRef}
+                inputRef={inputRefDes}
               />
             </ClickAwayListener>
           ) : (
-            <button
+            <div>
+              {editingCards?(<button
               onClick={() => setEditingDescription(true)}
               className="w-full rounded-md p-2 hover:bg-white/10"
             >
               <Typography className="text-start" variant="h4">
                 {description}
               </Typography>
-            </button>
-          )} */}
+            </button>):(<Typography className="text-start" variant="h4">
+                {description}
+              </Typography>)}
+            
+            </div>
+          )}
         </div>
         <div>{cards.length} songs</div>
+        {editingCards && ( <TableContainer className="responsive-table">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Checkbox checked={selectAll} onChange={handleSelectAll}/>
+                </TableCell>
+                <TableCell>Actions</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Singer</TableCell>
+                <TableCell>Link</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {cards.map((card) => (
+                <TableRow key={card.id}>
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedCards.includes(card.id)}
+                      onChange={() => handleCardSelect(card.id)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Card {...card} />
+                  </TableCell>
+                  <TableCell>{card.title}</TableCell>
+                  <TableCell>{card.singer}</TableCell>
+                  <TableCell>
+                    <a href={card.lin} target="_blank">
+                      {card.lin}
+                    </a>
+                  </TableCell>
+                  
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>)}
         {editingCards && (     
         <div className="flex flex-col gap-4">
-          {cards.map((card) => (
-            <Card key={card.id} {...card} />
-          ))}
           <Button
             variant="contained"
             onClick={() => setOpenNewCardDialog(true)}
