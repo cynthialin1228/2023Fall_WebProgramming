@@ -53,6 +53,10 @@ export default function CardList({ id, name, description, photo, cards, showDele
     const newName = inputRef.current.value;
     if (newName !== name) {
       try {
+        if(newName === ""){
+          alert("Error: List name cannot be empty");
+          return;
+        }
         await updateList(id, { name: newName });
         fetchLists();
       } catch (error) {
@@ -84,6 +88,10 @@ export default function CardList({ id, name, description, photo, cards, showDele
     const newDescription = inputRefDes.current.value;
     if (newDescription !== description) {
       try {
+        if(newDescription === ""){
+          alert("Error: List description cannot be empty");
+          return;
+        }
         await updateList(id, { description: newDescription });
         fetchLists();
       } catch (error) {
@@ -183,7 +191,7 @@ export default function CardList({ id, name, description, photo, cards, showDele
               >
                 <img
                   src={photo}
-                  alt="List Photo"
+                  alt="Playlist Photo"
                   style={{ width: "100px", height: "100px" }} // Adjust width and height as needed
                 />
               </button>):(<img

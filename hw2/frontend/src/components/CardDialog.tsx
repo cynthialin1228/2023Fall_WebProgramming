@@ -87,6 +87,22 @@ export default function CardDialog(props: CardDialogProps) {
 
   const handleSave = async () => {
     try {
+      if(newTitle === ""){
+        alert("Error: Title cannot be empty");
+        return;
+      }
+      if(newSinger === ""){
+        alert("Error: Singer cannot be empty");
+        return;
+      }
+      if(newLin === ""){
+        alert("Error: Link cannot be empty");
+        return;
+      }
+      if(newListId === ""){
+        alert("Error: List cannot be empty");
+        return;
+      }
       if (variant === "new" || variant === "duplicate") {
         await createCard({
           title: newTitle,

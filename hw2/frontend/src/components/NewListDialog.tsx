@@ -24,6 +24,14 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
 
   const handleAddList = async () => {
     try {
+      if(textfieldRef.current?.value === ""){
+        alert("Error: List name cannot be empty");
+        return;
+      }
+      if(textfieldRefDes.current?.value === ""){
+        alert("Error: List description cannot be empty");
+        return;
+      }
       await createList({ name: textfieldRef.current?.value ?? "" , description: textfieldRefDes.current?.value ?? "", photo: "https://pro2-bar-s3-cdn-cf4.myportfolio.com/dbea3cc43adf643e2aac2f1cbb9ed2f0/f14d6fc4-2cea-41a2-9724-a7e5dff027e8_rw_1200.jpg?h=60e8fb45f75e1a2612c53a4f2174997c"});
       fetchLists();
     } catch (error) {
