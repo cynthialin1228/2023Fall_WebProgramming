@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
@@ -35,6 +35,8 @@ export default function CardList({ id, name, description, photo, cards, showDele
   const [selectAll, setSelectAll] = useState(false);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
+  const [openDuplicateCardDialog, setOpenDuplicateCardDialog] = useState(false);
+  const [duplicateProps, setDuplicateProps] = useState<CardProps>({id: "", title: "", singer: "", lin: "", listId: ""});
   const [editingName, setEditingName] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [editingPhoto, setEditingPhoto] = useState(false);
@@ -87,7 +89,17 @@ export default function CardList({ id, name, description, photo, cards, showDele
     }
     setEditingDescription(false);
   }
-
+  const handleDuplicateCard = (card: CardProps) => {
+    setDuplicateProps(card);
+    setOpenDuplicateCardDialog(true);
+    console.log(duplicateProps)
+  };
+  const handleCloseDuplicateCardDialog = () => {
+    setDuplicateProps({id: "", title: "", singer: "", lin: "", listId: ""});
+    console.log(duplicateProps);
+    setOpenDuplicateCardDialog(false);
+  }
+  
   const handleUpdatePhoto = async () => {
     if (!inputRef.current) return;
 
@@ -262,6 +274,9 @@ export default function CardList({ id, name, description, photo, cards, showDele
                   </TableCell>
                   <TableCell>
                     <Card {...card} />
+                    <IconButton
+                      onClick={()=>handleDuplicateCard(card)}
+                    ><ContentCopyIcon/></IconButton>
                   </TableCell>
                   <TableCell>{card.title}</TableCell>
                   <TableCell>{card.singer}</TableCell>
@@ -305,6 +320,14 @@ export default function CardList({ id, name, description, photo, cards, showDele
         onClose={() => setOpenNewCardDialog(false)}
         listId={id}
       />
+      {openDuplicateCardDialog && (<CardDialog
+        variant="duplicate"
+        open={openDuplicateCardDialog}
+        onClose={handleCloseDuplicateCardDialog}
+        title={duplicateProps.title}
+        singer={duplicateProps.singer}
+        lin={duplicateProps.lin}
+      />)}
     </>
   );
 }

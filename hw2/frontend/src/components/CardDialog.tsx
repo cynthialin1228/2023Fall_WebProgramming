@@ -25,6 +25,14 @@ type NewCardDialogProps = {
   onClose: () => void;
   listId: string;
 };
+type DuplicateCardDialogProps = {
+  variant: "duplicate";
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  singer: string;
+  lin: string;
+};
 
 type EditCardDialogProps = {
   variant: "edit";
@@ -37,13 +45,14 @@ type EditCardDialogProps = {
   lin: string;
 };
 
-type CardDialogProps = NewCardDialogProps | EditCardDialogProps;
+type CardDialogProps = NewCardDialogProps | EditCardDialogProps | DuplicateCardDialogProps;
 
 export default function CardDialog(props: CardDialogProps) {
-  const { variant, open, onClose, listId } = props;
-  const title = variant === "edit" ? props.title : "";
-  const singer = variant === "edit" ? props.singer : "";
-  const lin = variant === "edit" ? props.lin : "";
+  const { variant, open, onClose} = props;
+  const title = variant === "new" ? "" : props.title;
+  const singer = variant === "new" ? "" : props.singer;
+  const lin = variant === "new" ? "" : props.lin;
+  const listId = variant === "duplicate" ?  "": props.listId;
   const [editingTitle, setEditingTitle] = useState(variant === "new");
   const [editingSinger, setEditingSinger] = useState(variant === "new");
   const [editingLin, setEditingLin] = useState(variant === "new");
@@ -60,22 +69,30 @@ export default function CardDialog(props: CardDialogProps) {
 
   const handleClose = () => {
     onClose();
-    if (variant === "edit") {
+    if(variant === "new") {
+      setNewTitle("");
+      setNewSinger("");
+      setNewLin("");
+    }else{
       setNewTitle(title);
       setNewSinger(singer);
       setNewLin(lin);
+    }
+    if (variant === "edit") {
       setNewListId(listId);
+    }else{
+      setNewListId("");
     }
   };
 
   const handleSave = async () => {
     try {
-      if (variant === "new") {
+      if (variant === "new" || variant === "duplicate") {
         await createCard({
           title: newTitle,
           singer: newSinger,
           lin: newLin,
-          list_id: listId,
+          list_id: newListId,
         });
       } else {
         if (
@@ -86,8 +103,6 @@ export default function CardDialog(props: CardDialogProps) {
         ) {
           return;
         }
-        // typescript is smart enough to know that if variant is not "new", then it must be "edit"
-        // therefore props.cardId is a valid value
         await updateCard(props.cardId, {
           title: newTitle,
           singer: newSinger,
@@ -185,7 +200,7 @@ export default function CardDialog(props: CardDialogProps) {
             <Typography className="text-start">{newSinger}</Typography>
           </button>
         )}
-        {editingLin ? ( 
+        <div>{editingLin ? ( 
           <ClickAwayListener
             onClickAway={() => {
               if (variant === "edit") {
@@ -209,6 +224,7 @@ export default function CardDialog(props: CardDialogProps) {
             <Typography className="text-start">{newLin}</Typography>
           </button>
         )}
+        </div>
 
         <DialogActions>
           <Button onClick={handleSave}>save</Button>
