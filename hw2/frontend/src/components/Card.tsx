@@ -22,7 +22,7 @@ export default function Card({ id, title, singer, lin, listId }: CardProps) {
       <Button onClick={handleClickOpen} className="text-start">
         Edit Card
       </Button>
-      <CardDialog
+      {open && (<CardDialog
         variant="edit"
         open={open}
         onClose={() => setOpen(false)}
@@ -31,7 +31,7 @@ export default function Card({ id, title, singer, lin, listId }: CardProps) {
         lin={lin}
         listId={listId}
         cardId={id}
-      />
+      />)}
     </>
   );
 }

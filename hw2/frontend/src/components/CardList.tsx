@@ -44,6 +44,9 @@ export default function CardList({ id, name, description, photo, cards, showDele
   const {fetchCards, fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefDes = useRef<HTMLInputElement>(null);
+  const openLinkInNewTab = (url:string) => {
+    window.open(url, '_blank');
+  };
   const handleUpdateName = async () => {
     if (!inputRef.current) return;
 
@@ -92,11 +95,9 @@ export default function CardList({ id, name, description, photo, cards, showDele
   const handleDuplicateCard = (card: CardProps) => {
     setDuplicateProps(card);
     setOpenDuplicateCardDialog(true);
-    console.log(duplicateProps)
   };
   const handleCloseDuplicateCardDialog = () => {
     setDuplicateProps({id: "", title: "", singer: "", lin: "", listId: ""});
-    console.log(duplicateProps);
     setOpenDuplicateCardDialog(false);
   }
   
@@ -281,9 +282,9 @@ export default function CardList({ id, name, description, photo, cards, showDele
                   <TableCell>{card.title}</TableCell>
                   <TableCell>{card.singer}</TableCell>
                   <TableCell>
-                    <a href={card.lin} target="_blank">
-                      {card.lin}
-                    </a>
+                  <button onClick={() => openLinkInNewTab(card.lin)}>
+                    {card.lin}
+                  </button>
                   </TableCell>
                   
                 </TableRow>

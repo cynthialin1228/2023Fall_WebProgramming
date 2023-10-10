@@ -145,7 +145,7 @@ export default function CardDialog(props: CardDialogProps) {
           >
             <Input
               autoFocus
-              defaultValue={title}
+              defaultValue={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               className="grow"
               placeholder="Enter a title for this card..."
@@ -187,7 +187,7 @@ export default function CardDialog(props: CardDialogProps) {
             <textarea
               className="bg-white/0 p-2"
               autoFocus
-              defaultValue={singer}
+              defaultValue={newSinger}
               placeholder="Add a more detailed singer..."
               onChange={(e) => setNewSinger(e.target.value)}
             />
@@ -211,7 +211,7 @@ export default function CardDialog(props: CardDialogProps) {
             <textarea
               className="bg-white/0 p-2"
               autoFocus
-              defaultValue={lin}
+              defaultValue={newLin}
               placeholder="Add a more detailed link..."
               onChange={(e) => setNewLin(e.target.value)}
             />
