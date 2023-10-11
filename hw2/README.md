@@ -1,13 +1,9 @@
 # Web Programming HW#2
-
 ### 1. setup backend `.env`
-
 create your own `.env` in backend.
-
 ```bash
 cd backend
 ```
-
 Then, fill in the `MONGO_URL` field in `.env` with your MongoDB connection string and fill in the `PORT` field with the port you want to use. After that, you're `.env` file should look like this. If you don't want to use MongoDB Atlas, you can also run a local MongoDB server with Docker. You can find the instructions [here](https://hub.docker.com/_/mongo).
 
 ```bash
