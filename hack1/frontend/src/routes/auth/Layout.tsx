@@ -88,7 +88,7 @@ const AuthLayout = () => {
         </Tabs>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 tracking-normal">
-            <img src="../../../public/vscoddit.svg"
+            <img src="/vscoddit.svg"
                   alt="VSCoddit Logo" 
                   data-testid="header-logo" 
                   className="h-5 w-5 brightness-200" />
