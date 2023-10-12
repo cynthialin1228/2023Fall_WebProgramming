@@ -41,6 +41,16 @@ const Profile = (): React.ReactNode => {
     defaultValues: user!,
     mode: 'onChange',
   });
+  const GenderItem = ({ gender }: { gender: NonNullable<User['sex']> }) => {
+    return (
+      <FormItem className="flex items-center space-x-3 space-y-0">
+        <FormControl>
+          <RadioGroupItem value={gender} />
+        </FormControl>
+        <FormLabel className="font-normal">{gender}</FormLabel>
+      </FormItem>
+    );
+  };
 
   const onSubmit = (data: User.Put.Payload) => {
     updateProfile(data);
@@ -84,8 +94,26 @@ const Profile = (): React.ReactNode => {
           {/* You should use a `Textarea` component */}
           {/* It should have a placeholder of "Tell us a little bit about yourself" */}
           {/* It is not required */}
-          <p className="text-destructive">Replace me</p>
+          {/* <p className="text-destructive">Replace me</p> */}
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bio</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    data-testid="input-bio"
+                    placeholder="Tell us a little bit about yourself"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* End of TODO 5.1 */}
+
           <FormField
             control={form.control}
             name="sex"
@@ -102,7 +130,10 @@ const Profile = (): React.ReactNode => {
                     {/* Use `genders` array to render the radio group items */}
                     {/* Use the `GenderItem` component to render each item */}
                     {/* Send the `gender` as a prop to the `GenderItem` component */}
-                    <p className="text-destructive">Replace me</p>
+                    {genders.map((gender) => (
+                      <GenderItem key={gender} gender={gender} />
+                    ))}
+                    {/* <p className="text-destructive">Replace me</p> */}
                     {/* End of TODO 5.2 */}
                   </RadioGroup>
                 </FormControl>
@@ -129,11 +160,12 @@ const Profile = (): React.ReactNode => {
                   {/* ↑ This will not be tested in TODO 4.3 ↑ */}
                   {/* Otherwise, render text "Upload a picture" */}
                   <img
-                    src="Replace me"
-                    alt="Replace me"
+                    src={form.watch('image') || user.image || ''}
+                    alt={form.watch('image') ? 'Uploaded Profile Picture' : 'Profile Picture'}
                     data-testid="label-profile-picture"
                     className="h-full w-full rounded-md object-cover"
                   />
+                  
                   <span data-testid="label-upload">Upload a picture</span>
                   {/* End of TODO 5.3 */}
                   {/* End of TODO 5.5 */}

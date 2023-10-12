@@ -63,6 +63,13 @@ export const updateUser = asyncWrapper(
     req: Request<{ id: string }, {}, User.Put.Payload>,
     res: Response<User.Put.Response<Schema.Types.ObjectId> | ErrorResponse>,
   ) => {
+    const updatedUser = await UserModel.findByIdAndUpdate(  
+      req.params.id,
+      req.body,
+      { new: true },
+    );
+    if(!updatedUser) return res.status(404).send({ message: 'User not found' });
+    res.status(200).json(updatedUser);
     /* TODO 4.4: Update User Information (6%) */
     /* Return 200 with updated user */
     /* Return 404 with "User not found" if update fails */
