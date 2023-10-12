@@ -16,7 +16,7 @@ const AppLayout = () => {
     <>
       <div className="mb-6 flex items-center gap-2 text-2xl font-semibold leading-none tracking-normal">
         <img
-          src="/vscoddit.svg"
+          src="../../public/vscoddit.svg"
           alt="VSCoddit Logo"
           className="h-5 w-5 brightness-200"
         />
