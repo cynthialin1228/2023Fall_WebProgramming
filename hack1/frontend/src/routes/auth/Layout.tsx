@@ -51,7 +51,9 @@ const AuthLayout = () => {
       /* Here, a toast is a small, non-blocking notification pop-up. */
       /* They can be created via the `toast` function provided by `useToast()` */
       /* Reference: https://ui.shadcn.com/docs/components/toast#usage */
-
+      toast({
+        description: 'Passwords do not match',
+      });
       /* End of TODO 1.5 */
       register(username, password);
     }
@@ -73,11 +75,12 @@ const AuthLayout = () => {
               <TabsTrigger
                 asChild
                 key={tab.title}
-                value=""
+                value={tab.path}
                 className="last-of-type:border-r-0"
                 data-testid={`tab-${tab.path}`}
               >
-                <NavLink to="" />
+                <NavLink to= {tab.path}/>
+                {/* <NavLink to={tab.path}>{tab.title}</NavLink> */}
               </TabsTrigger>
               /* End of TODO 1.3 */
             ))}
@@ -85,17 +88,11 @@ const AuthLayout = () => {
         </Tabs>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 tracking-normal">
-            {/* TODO 1.1: Title and Login Page Title (5%) */}
-            {/* Add a logo to the left of the title. */}
-            {/* The logo should be vscoddit.svg in the public folder. */}
-            {/* The logo should have alt text "VSCoddit Logo". */}
-            {/* The title should be "VSCoddit" */}
             <img src="../../../public/vscoddit.svg"
                   alt="VSCoddit Logo" 
                   data-testid="header-logo" 
                   className="h-5 w-5 brightness-200" />
             <span data-testid="header-title"> VSCoddit</span>
-            {/* END of TODO 1.1 */}
           </CardTitle>
           <CardDescription>
             {location.pathname === '/login'
@@ -110,14 +107,16 @@ const AuthLayout = () => {
               {/* TODO 1.4: Login Fails for Unregistered Users (8%) */}
               {/* You can think of `Input` as the `input` tag. */}
               {/* It should be controlled by the `username` state. */}
-              {/* It should have placeholder text "Enter Username". */}
-              {/* It should be required. */}
               <Input
                 id="username"
                 data-testid="input-username"
                 type="text"
                 name="username"
                 autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder='Enter Username'
+                required
               />
               {/* End of TODO 1.4 */}
             </div>
@@ -126,14 +125,16 @@ const AuthLayout = () => {
               {/* TODO 1.4: Login Fails for Unregistered Users (8%) */}
               {/* You can think of `Input` as the `input` tag. */}
               {/* It should be controlled by the `password` state. */}
-              {/* It should have placeholder text "Enter Password". */}
-              {/* It should be required. */}
               <Input
                 id="password"
                 data-testid="input-password"
                 type="password"
                 name="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder='Enter Password'
+                required
               />
               {/* End of TODO 1.4 */}
             </div>
@@ -156,6 +157,10 @@ const AuthLayout = () => {
                 type="password"
                 name="confirm-password"
                 autoComplete="new-password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder='Confirm Password'
+                required={location.pathname === '/register'}
               />
               {/* End of TODO 1.5 */}
             </div>
