@@ -28,16 +28,7 @@ export default function Header() {
             <Image src={larry} alt="Larry the bird" width={40} height={40} />
           </Link>
         </div>
-        <HeaderButton Icon={Home} text="Home" active />
-        <HeaderButton Icon={Search} text="Explore" />
-        <HeaderButton Icon={Bell} text="Notifications" />
-        <HeaderButton Icon={Mail} text="Messages" />
-        <HeaderButton Icon={FileText} text="Lists" />
-        <HeaderButton Icon={Bookmark} text="Bookmarks" />
-        <HeaderButton Icon={Users} text="Communities" />
-        <HeaderButton Icon={User} text="Profile" />
-        <HeaderButton Icon={MoreHorizontal} text="More" />
-      </div>
+        </div>
       <ProfileButton />
     </aside>
   );
