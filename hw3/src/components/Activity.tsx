@@ -41,15 +41,16 @@ export default function Activity({
           <article className="flex grow flex-col">
             <article className="mt-2 whitespace-pre-wrap">{content}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-                <Check size={18} />
-              </button>
-              <LikeButton
-                initialLikes={likes}
-                initialLiked={liked}
-                tweetId={id}
-                handle={handle}
-              />
+              {
+                likes>0 ? (
+                <>{likes}人參加</>
+                ) : (
+                <>0人參加</>
+                )
+              }
+              {liked && (
+                <Check size={50} />)  
+              }
             </div>
           </article>
         </div>

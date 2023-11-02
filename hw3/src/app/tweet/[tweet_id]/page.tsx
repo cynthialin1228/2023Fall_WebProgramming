@@ -4,10 +4,7 @@ import { redirect } from "next/navigation";
 import { eq, desc, sql, and } from "drizzle-orm";
 import {
   ArrowLeft,
-  MessageCircle,
   MoreHorizontal,
-  Repeat2,
-  Share,
 } from "lucide-react";
 
 import LikeButton from "@/components/LikeButton";
@@ -183,25 +180,11 @@ export default async function TweetPage({
           <Link href={{ pathname: "/", query: { username, handle } }}>
             <ArrowLeft size={18} />
           </Link>
-          <h1 className="text-xl font-bold">Tweet</h1>
+          <h1 className="text-xl font-bold">Activity</h1>
         </div>
         <div className="flex flex-col px-4 pt-3">
           <div className="flex justify-between">
             <div className="flex w-full gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={getAvatar(tweet.username)}
-                alt="user avatar"
-                width={48}
-                height={48}
-                className="h-12 w-12 rounded-full"
-              />
-              <div>
-                <p className="font-bold">{tweet.username ?? "..."}</p>
-                <p className="font-normal text-gray-500">
-                  @{tweet.handle ?? "..."}
-                </p>
-              </div>
             </div>
             <button className="h-fit rounded-full p-2.5 text-gray-400 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
               <MoreHorizontal size={16} />
@@ -210,32 +193,29 @@ export default async function TweetPage({
           <article className="mt-3 whitespace-pre-wrap text-xl">
             {tweet.content}
           </article>
-          <time className="my-4 block text-sm text-gray-500">
-            <TimeText date={tweet.createdAt} format="h:mm A · D MMM YYYY" />
-          </time>
           <Separator />
           <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <MessageCircle size={20} className="-scale-x-100" />
-            </button>
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <Repeat2 size={22} />
-            </button>
+          <>{tweet.likes}</>
+          <>人參加</>
             <LikeButton
               handle={handle}
               initialLikes={tweet.likes}
               initialLiked={tweet.liked}
               tweetId={tweet.id}
             />
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <Share size={18} />
-            </button>
           </div>
           <Separator />
         </div>
-        <ReplyInput replyToTweetId={tweet.id} replyToHandle={tweet.handle} />
-        <Separator />
-        {replies.map((reply) => (
+        {liked ? (
+          <>
+          <ReplyInput replyToTweetId={tweet.id} replyToHandle={tweet.handle} />
+          <Separator />
+          </>
+          ) : (
+          <h1 className="px-4">加入即可留言</h1>
+        )}
+        {/* {liked && (<ReplyInput replyToTweetId={tweet.id} replyToHandle={tweet.handle} />)} */}
+        {replies.reverse().map((reply) => (
           <Tweet
             key={reply.id}
             id={reply.id}

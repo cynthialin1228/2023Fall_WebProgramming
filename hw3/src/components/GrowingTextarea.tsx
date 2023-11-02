@@ -12,6 +12,7 @@ type GrowingTextareaProps = {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
+  onSubmit?: () => void;
 };
 
 // this component implements a css hack that allows the textarea to grow with its content
@@ -23,7 +24,7 @@ type GrowingTextareaProps = {
 // for more information, please refer to the following link
 // https://react.dev/reference/react/forwardRef
 const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
-  ({ className, wrapperClassName, placeholder, value, onChange }, ref) => {
+  ({ className, wrapperClassName, placeholder, value, onChange, onSubmit }, ref) => {
     return (
       <div
         className={cn(
@@ -36,15 +37,15 @@ const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
           // after: adds a pseudo element after the element and style it
           // learn more about pseudo elements here: https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
           // you may not think this is useful, but it is actually very useful for styling custom components and cool hacks
-          "after:invisible after:whitespace-pre after:content-[attr(data-replicated-value)]",
+          "after:invisible after:whitespace-normal after:content-[attr(data-replicated-value)]",
           "after:col-span-1 after:col-start-1 after:row-span-1 after:row-start-1",
         )}
       >
         <textarea
           className={cn(
             className,
-            "resize-none overflow-hidden",
-            "col-span-1 col-start-1 row-span-1 row-start-1",
+            "resize-none overflow-hidden ",
+            "whitespace-normal break-words col-span-1 col-start-1 row-span-1 row-start-1",
           )}
           placeholder={placeholder}
           value={value}
@@ -56,6 +57,12 @@ const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
             parent.dataset.replicatedValue = target.value + " ";
           }}
           onChange={(e) => onChange?.(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault(); // Prevent the default action to avoid a newline in textarea
+              onSubmit?.(); // Call the onSubmit function passed via props
+            }
+          }}
           ref={ref}
         ></textarea>
       </div>

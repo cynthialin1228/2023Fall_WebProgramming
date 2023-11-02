@@ -58,8 +58,9 @@ export default function ReplyInput({
         <GrowingTextarea
           ref={textareaRef}
           wrapperClassName="col-start-2 row-start-2"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-500"
-          placeholder="Tweet your reply"
+          className="whitespace-normal  bg-transparent text-xl outline-none placeholder:text-gray-500"
+          placeholder="在這裡留言..."
+          onSubmit={handleReply}
         />
       </div>
       <div className="p-4 text-end">

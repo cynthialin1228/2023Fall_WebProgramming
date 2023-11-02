@@ -2,6 +2,7 @@ import { eq, desc, isNull, sql } from "drizzle-orm";
 import NameDialog from "@/components/NameDialog";
 import Tweet from "@/components/Tweet";
 import Activity from "@/components/Activity";
+import ActivityInput from "@/components/ActivityInput";
 import TweetInput from "@/components/TweetInput";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
@@ -134,7 +135,7 @@ export default async function Home({
             <button className="py-2 px-4 bg-blue-500 text-white rounded">搜尋</button>
           </div>
           <div className="w-full px-4 pt-3">
-            <TweetInput />
+            <ActivityInput/>
           </div>
           <Separator />
           {activities.map((activity) => (
