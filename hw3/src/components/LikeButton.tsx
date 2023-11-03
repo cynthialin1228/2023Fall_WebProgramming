@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import type { EventHandler, MouseEvent } from "react";
-
 import { Plus} from "lucide-react";
 
 import useLike from "@/hooks/useLike";

@@ -16,7 +16,7 @@ export default function ActivityInput() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  const handleTweet = async () => {
+  const handleAddActivity = async () => {
     const content = textareaRef.current?.value;
     if (!content) return;
     if (!handle) return;
@@ -76,7 +76,7 @@ export default function ActivityInput() {
               "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
               "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
             )}
-            onClick={handleTweet}
+            onClick={handleAddActivity}
             disabled={loading}
             ref={addActivityButtonRef}
           >
