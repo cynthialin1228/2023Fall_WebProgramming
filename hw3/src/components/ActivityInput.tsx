@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect} from "react";
 import { ChevronDown } from "lucide-react";
 import GrowingTextarea from "@/components/GrowingTextarea";
 import UserAvatar from "@/components/UserAvatar";
@@ -12,6 +12,7 @@ export default function ActivityInput() {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postTweet, loading } = useTweet();
+  const [showAddActivity, setShowAddActivity] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
@@ -37,15 +38,30 @@ export default function ActivityInput() {
       alert("Error posting tweet");
     }
   };
+  const activityInputRef = useRef<HTMLDivElement>(null);
+  const addActivityButtonRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        activityInputRef.current && 
+        !activityInputRef.current.contains(event.target as Node) &&
+        addActivityButtonRef.current !== event.target
+      ) {
+        setShowAddActivity(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
-    <div className="flex gap-4">
+      showAddActivity? 
+      <>
+      <div className="flex gap-4 top-0 right-0 px-4" ref={activityInputRef}>
       <UserAvatar className="h-12 w-12" />
       <div className="flex w-full flex-col px-2">
-        <button className="flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold text-brand">
-          Everyone
-          <ChevronDown size={16} className="text-gray-300" />
-        </button>
         <div className="mb-2 mt-6">
           <GrowingTextarea
             ref={textareaRef}
@@ -62,11 +78,17 @@ export default function ActivityInput() {
             )}
             onClick={handleTweet}
             disabled={loading}
+            ref={addActivityButtonRef}
           >
             Add Activity
           </button>
         </div>
       </div>
     </div>
+    </> : <>
+      <button 
+        onClick={() => setShowAddActivity(true)}
+        className = "py-2 px-4 bg-green-500 text-white rounded"
+      >新增活動</button></>
   );
 }

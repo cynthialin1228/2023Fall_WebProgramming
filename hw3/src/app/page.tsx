@@ -134,9 +134,6 @@ export default async function Home({
             <input type="text" placeholder="搜尋想知道的活動" className="bg-transparent rounded px-4 flex-grow outline-none"/>
             <button className="bg-blue-500 text-white py-2 px-4 rounded">搜尋</button>
           </div>
-          <div className="justify-center w-50 items-center px-4">
-            <button className="py-2 px-4 bg-green-500 text-white rounded">新增活動</button>
-          </div>
           <div className="w-full px-4 pt-3">
             <ActivityInput/>
           </div>
