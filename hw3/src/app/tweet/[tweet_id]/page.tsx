@@ -68,6 +68,8 @@ export default async function TweetPage({
       content: tweetsTable.content,
       userHandle: tweetsTable.userHandle,
       createdAt: tweetsTable.createdAt,
+      startTime: tweetsTable.startTime,
+      endTime: tweetsTable.endTime,
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.id, tweet_id_num))
@@ -130,6 +132,8 @@ export default async function TweetPage({
     likes: numLikes,
     createdAt: tweetData.createdAt,
     liked: Boolean(liked),
+    startTime: tweetData.startTime,
+    endTime: tweetData.endTime,
   };
 
   // The following code is almost identical to the code in src/app/page.tsx
@@ -189,6 +193,14 @@ export default async function TweetPage({
             <button className="h-fit rounded-full p-2.5 text-gray-400 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
               <MoreHorizontal size={16} />
             </button>
+          </div>
+          <div className="flex gap-4 mt-2">
+          <h1>StartTime: </h1>
+          {tweet.startTime}
+          </div>
+          <div className="flex gap-4 mt-2">
+          <h1>EndTime: </h1>
+          {tweet.endTime}
           </div>
           <article className="mt-3 whitespace-pre-wrap text-xl">
             {tweet.content}

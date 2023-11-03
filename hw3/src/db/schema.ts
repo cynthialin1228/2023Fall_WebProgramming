@@ -56,6 +56,8 @@ export const tweetsTable = pgTable(
         onUpdate: "cascade",
       }),
     replyToTweetId: integer("reply_to_tweet_id"),
+    startTime: varchar("start_time", { length: 20 }),
+    endTime: varchar("end_time", { length: 20 }),
     createdAt: timestamp("created_at").default(sql`now()`),
   },
   (table) => ({
@@ -68,6 +70,8 @@ export const tweetsTable = pgTable(
       table.replyToTweetId,
       table.createdAt,
     ),
+    startTimeIndex: index("start_time_index").on(table.startTime),
+    endTimeIndex: index("end_time_index").on(table.endTime),
   }),
 );
 
