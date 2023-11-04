@@ -36,14 +36,14 @@ export default function LikeButton({
         tweetId,
         userHandle: handle,
       });
-      setLikesCount((prev) => prev - 1);
+      setLikesCount(likesCount - 1);
       setLiked(false);
     } else {
       await likeTweet({
         tweetId,
         userHandle: handle,
       });
-      setLikesCount((prev) => prev + 1);
+      setLikesCount(likesCount + 1);
       setLiked(true);
     }
   };

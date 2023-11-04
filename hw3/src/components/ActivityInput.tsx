@@ -15,8 +15,8 @@ export default function ActivityInput() {
   const endTimeRef = useRef<HTMLInputElement>(null);
   const { postTweet, loading } = useTweet();
   const [showAddActivity, setShowAddActivity] = useState(false);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
   const isValidDateTime = (dateTime: string) => {
     const d = dateTime.split(" ")[0];
     const t = (dateTime.split(" ")[1]);
@@ -122,7 +122,7 @@ export default function ActivityInput() {
             className="bg-transparent outline-none placeholder:text-gray-500"
             placeholder="YYYY-MM-DD HH (0~23)"
             type="text"
-            onChange={(e) => setStartTime(e.target.value)}
+            // onChange={(e) => setStartTime(e.target.value)}
           />  
         </div>
         <div className="mb-2 mt-6">
@@ -132,7 +132,7 @@ export default function ActivityInput() {
             className="bg-transparent outline-none placeholder:text-gray-500"
             placeholder="YYYY-MM-DD HH (0~23)"
             type="text"
-            onChange={(e) => setEndTime(e.target.value)}
+            // onChange={(e) => setEndTime(e.target.value)}
           /> 
         </div>
         <Separator />

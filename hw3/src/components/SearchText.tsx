@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import Activity from "@/components/Activity";
 type SearchTextProps = {
   searchText: string // Prop to send the search text back to the parent component
@@ -16,15 +16,9 @@ type SearchTextProps = {
     handle?: string;
 };
 
-const SearchText: React.FC<SearchTextProps> = ( {searchText, activities, username, handle}:SearchTextProps) => {
+export default function SearchText( {activities, username, handle}:SearchTextProps) {
   const [text, setText] = useState("");
 
-    useEffect(() => {
-        searchText = text;
-    }, [text]);
-    const handleClickSearch = () => {
-        searchText = text;
-    };
   return (
     <>
     <div className="flex justify-between items-center mb-4">
@@ -36,13 +30,10 @@ const SearchText: React.FC<SearchTextProps> = ( {searchText, activities, usernam
         placeholder="Search for activities"
         className="border p-2 rounded"
       />
-      <button onClick={handleClickSearch}>Search</button>
     </div>
     {(activities && activities.filter(
         (activity) => activity.content.toLowerCase().includes(text.toLowerCase())
         )).map((activity) => (
-          // console.log("activities = ",activities),
-          // console.log("activity = ",activity),
         <Activity
           key={activity.id}
           id={activity.id}
@@ -59,5 +50,3 @@ const SearchText: React.FC<SearchTextProps> = ( {searchText, activities, usernam
     </>
   );
 };
-
-export default SearchText;
