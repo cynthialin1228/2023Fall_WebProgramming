@@ -8,8 +8,9 @@ import useTweet from "@/hooks/useTweet";
 import useUserInfo from "@/hooks/useUserInfo";
 import { cn } from "@/lib/utils";
 import { set } from "zod";
-
+import { useRouter } from "next/navigation";
 export default function ActivityInput() {
+  const router = useRouter();
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const startTimeRef = useRef<HTMLInputElement>(null);
@@ -63,7 +64,7 @@ export default function ActivityInput() {
     }
 
     try {
-      await postTweet({
+      const res = await postTweet({
         handle,
         content,
         startTime,
@@ -79,6 +80,7 @@ export default function ActivityInput() {
       startTimeRef.current.value = "";
       endTimeRef.current.value = "";
       setShowAddActivity(false);
+      router.push(`/tweet/${res}`);
     } catch (e) {
       console.error(e);
       alert("Error posting tweet");

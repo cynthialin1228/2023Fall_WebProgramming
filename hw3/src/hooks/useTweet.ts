@@ -36,12 +36,13 @@ export default function useTweet() {
       const body = await res.json();
       throw new Error(body.error);
     }
-
+    const { tweetId } = await res.json();
     // router.refresh() is a Next.js function that refreshes the page without
     // reloading the page. This is useful for when we want to update the UI
     // from server components.
     router.refresh();
     setLoading(false);
+    return tweetId;
   };
 
   return {
