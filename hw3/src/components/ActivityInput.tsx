@@ -1,13 +1,11 @@
 "use client";
 import { useRef, useState, useEffect} from "react";
-import { ChevronDown } from "lucide-react";
 import GrowingTextarea from "@/components/GrowingTextarea";
 import UserAvatar from "@/components/UserAvatar";
 import { Separator } from "@/components/ui/separator";
 import useTweet from "@/hooks/useTweet";
 import useUserInfo from "@/hooks/useUserInfo";
 import { cn } from "@/lib/utils";
-import { set } from "zod";
 import { useRouter } from "next/navigation";
 export default function ActivityInput() {
   const router = useRouter();
@@ -22,7 +20,7 @@ export default function ActivityInput() {
   const isValidDateTime = (dateTime: string) => {
     const d = dateTime.split(" ")[0];
     const t = (dateTime.split(" ")[1]);
-    let T = parseInt(t);
+    const T = parseInt(t);
     const D = new Date(d);
     if (D.toString() === "Invalid Date") {
       return false;

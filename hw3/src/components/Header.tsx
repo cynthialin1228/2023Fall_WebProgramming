@@ -1,18 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  Bell,
-  Bookmark,
-  FileText,
-  Home,
-  Mail,
-  MoreHorizontal,
-  Search,
-  User,
-  Users,
-} from "lucide-react";
-
 import larry from "@/assets/larry.png";
 import { cn } from "@/lib/utils";
 

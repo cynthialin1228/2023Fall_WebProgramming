@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {Check} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import LikeButton from "./LikeButton";
 
 type TweetProps = {
   username?: string;
