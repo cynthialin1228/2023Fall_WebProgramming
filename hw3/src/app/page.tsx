@@ -1,17 +1,15 @@
 import { eq, desc, isNull, sql } from "drizzle-orm";
 import NameDialog from "@/components/NameDialog";
-import Tweet from "@/components/Tweet";
-import Activity from "@/components/Activity";
 import ActivityInput from "@/components/ActivityInput";
-import TweetInput from "@/components/TweetInput";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { likesTable, tweetsTable, usersTable } from "@/db/schema";
-
+import SearchText from "@/components/SearchText";
 type HomePageProps = {
   searchParams: {
     username?: string;
     handle?: string;
+    searchText?: string;
   };
 };
 
@@ -24,7 +22,7 @@ type HomePageProps = {
 // any where. There are already libraries that use react to render to the terminal,
 // email, PDFs, native mobile apps, 3D objects and even videos.
 export default async function Home({
-  searchParams: { username, handle },
+  searchParams: { username, handle, searchText = "" },
 }: HomePageProps) {
   if (username && handle) {
     await db
@@ -128,30 +126,15 @@ export default async function Home({
     .execute();
     return (
       <>
-        <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
+        <div className="h-screen w-full max-w-2xl overflow-scroll pt-2">
           <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
-          <div className="flex justify-between items-center mb-4">
-            <input type="text" placeholder="搜尋想知道的活動" className="bg-transparent rounded px-4 flex-grow outline-none"/>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded">搜尋</button>
-          </div>
           <div className="w-full px-4 pt-3">
             <ActivityInput/>
           </div>
+          <br />
           <Separator />
-          {activities.map((activity) => (
-            <Activity
-              key={activity.id}
-              id={activity.id}
-              username={username}
-              handle={handle}
-              authorName={activity.username}
-              authorHandle={activity.handle}
-              content={activity.content}
-              likes={activity.likes}
-              liked={activity.liked}
-              createdAt={activity.createdAt!}
-            />
-          ))}
+          <SearchText searchText={searchText} activities={activities} username={username} handle={handle}/> 
+          <Separator />
         </div>
         <NameDialog />
       </>
