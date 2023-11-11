@@ -2,7 +2,6 @@
    ```bash
    yarn
    ```
-
 ## Prettier and ESLint
 
 1. Install prettier and prettier plugins
@@ -56,9 +55,39 @@
    cd ./src
    mkdir db
    ```
-6. Copy the `./src/db/index.ts` from this repo to your project.
+6. Create the `./src/db/index.ts` file:
 
-   Remember to setup the env handlers in `src/lib/env/private.ts`
+   ```ts
+   import { drizzle } from "drizzle-orm/node-postgres";
+   import { Client } from "pg";
+
+   import { privateEnv } from "@/lib/env/private";
+
+   const client = new Client({
+     connectionString: privateEnv.POSTGRES_URL,
+     connectionTimeoutMillis: 5000,
+   });
+   await client.connect();
+   export const db = drizzle(client);
+   ```
+
+   Remember to setup the environment variables handlers in `src/lib/env/private.ts`:
+
+   ```ts
+   import { z } from "zod";
+
+   const privateEnvSchema = z.object({
+     POSTGRES_URL: z.string().url(),
+   });
+
+   type PrivateEnv = z.infer<typeof privateEnvSchema>;
+
+   export const privateEnv: PrivateEnv = {
+     POSTGRES_URL: process.env.POSTGRES_URL!,
+   };
+
+   privateEnvSchema.parse(privateEnv);
+   ```
 
 7. Create an empty `./src/db/schema.ts` file
 
@@ -69,21 +98,32 @@
    yarn add dotenv
    ```
 
-9. Add scripts
-   Add the following scripts to the `./package.json` file:
+9. Change the `target` option in `tsconfig.json` to `es2017`:
 
    ```json
    {
-     "scripts": {
-       // This script will update the database schema
-       "migrate": "drizzle-kit push:pg",
-       // This script opens a GUI to manage the database
-       "studio": "drizzle-kit studio"
+     "compilerOptions": {
+       "target": "es2017",
+       ...
      }
    }
    ```
 
-10. Add `pg-data` to `.gitignore`
+10. Add scripts
+    Add the following scripts to the `./package.json` file:
+
+    ```json
+    {
+      "scripts": {
+        // This script will update the database schema
+        "migrate": "drizzle-kit push:pg",
+        // This script opens a GUI to manage the database
+        "studio": "drizzle-kit studio"
+      }
+    }
+    ```
+
+11. Add `pg-data` to `.gitignore`
     ```text
     ...
     pg-data/
@@ -134,13 +174,18 @@
     - `secret`
     - `cluster`
 5.  Copy these keys to your `.env.local` file:
+
     ```text
     PUSHER_ID=<app_id>
     NEXT_PUBLIC_PUSHER_KEY=<key>
     PUSHER_SECRET=<secret>
     NEXT_PUBLIC_PUSHER_CLUSTER=<cluster>
     ```
+
     `NEXT_PUBLIC` prefix is required for the client side to access the env variable.
+
+    Also, please remember to add these keys to your environment variables handler in `src/lib/env/private.ts` and `src/lib/env/public.ts`. You can view those two files for more details.
+
 6.  Go to `App Settings` tab, scroll down to `Enable authorized connections` and enable it.
     Note: If you enable the `Enable client events` option, every connection will last only 30 seconds if not authorized. So if you just want to do some experiments, you might need to disable this option.
 
@@ -166,11 +211,15 @@ We use the latest version (v5) of NextAuth, which is still in beta. So there are
      - `Authorization callback URL`: `http://localhost:3000/api/auth/callback/github`
    - Click `Register application`
    - Copy the `Client ID` and `Client Secret` to your `.env.local` file:
+
      ```text
      AUTH_GITHUB_ID=<Client ID>
      AUTH_GITHUB_SECRET=<Client Secret>
      ```
+
      Note that in NextAuth v5, the prefix `AUTH_` is required for the env variables.
+
+     Note that you do not have to add those keys to `src/lib/env/private.ts` since they are automatically handled by NextAuth.
 
 3. Add `AUTH_SECRET` to `.env.local`:
 
@@ -179,6 +228,8 @@ We use the latest version (v5) of NextAuth, which is still in beta. So there are
    ```
 
    This is used to encrypt the session token. You can use any random string here. Make sure to keep it secret and update it regularly.
+
+   Note that you do not have to add those keys to `src/lib/env/private.ts` since they are automatically handled by NextAuth.
 
 4. Create `./src/lib/auth.ts`
 
@@ -198,4 +249,18 @@ We use the latest version (v5) of NextAuth, which is still in beta. So there are
 
    ```ts
    export { GET, POST } from "@/lib/auth";
+   ```
+
+6. Add providers to `./src/app/layout.ts`
+   ```tsx
+   import { SessionProvider } from "next-auth/react";
+   ...
+      return (
+         <html lang="en">
+            <body className={inter.className}>
+               <SessionProvider>{children}</SessionProvider>
+            </body>
+         </html>
+      );
+   ...
    ```
