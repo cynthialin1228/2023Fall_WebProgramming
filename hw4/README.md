@@ -1,7 +1,9 @@
 # Setup Guide
-   ```bash
-   yarn
-   ```
+
+```bash
+yarn
+```
+
 ## Prettier and ESLint
 
 1. Install prettier and prettier plugins
