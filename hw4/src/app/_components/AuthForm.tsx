@@ -13,7 +13,6 @@ import AuthInput from "./AuthInput";
 
 function AuthForm() {
   const [email, setEmail] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -31,18 +30,10 @@ function AuthForm() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <AuthInput
             label="Email"
-            type="email"
+            type="text"
             value={email}
             setValue={setEmail}
           />
-          {isSignUp && (
-            <AuthInput
-              label="Username"
-              type="text"
-              value={username}
-              setValue={setUsername}
-            />
-          )}
           <AuthInput
             label="Password"
             type="password"
