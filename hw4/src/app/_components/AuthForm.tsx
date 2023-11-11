@@ -92,6 +92,9 @@ function AuthForm() {
         <Button
           onClick={async () => {
             // TODO: sign in with github
+            signIn("github", {
+              callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`,
+            });
           }}
           className="flex w-full"
           variant={"outline"}
