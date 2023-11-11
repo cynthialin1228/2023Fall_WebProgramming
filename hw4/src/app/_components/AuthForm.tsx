@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 
 // Run: npx shadcn-ui@latest add button
 import { Button } from "@/components/ui/button";
 // Run: npx shadcn-ui@latest add card
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { publicEnv } from "@/lib/env/public";
 
 import AuthInput from "./AuthInput";
 
@@ -20,6 +22,11 @@ function AuthForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // TODO: sign in logic
+    signIn("credentials", {
+      email,
+      password,
+      callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`,
+    });
   };
   return (
     <Card className="min-w-[300px]">
