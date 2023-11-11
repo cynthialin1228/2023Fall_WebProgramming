@@ -1,4 +1,7 @@
 # Setup Guide
+   ```bash
+   yarn
+   ```
 
 ## Prettier and ESLint
 
