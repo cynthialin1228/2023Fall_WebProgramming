@@ -4,7 +4,7 @@ services:
   postgresql:
     image: postgres
     environment:
-      POSTGRES_DB: notion-clone
+      POSTGRES_DB: hw4
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data

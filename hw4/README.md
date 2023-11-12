@@ -50,7 +50,7 @@ yarn
 4. Add `POSTGRES_URL` to `.env.local`:
    ```text
    ...
-   POSTGRES_URL=postgres://postgres:postgres@localhost:5432/notion-clone
+   POSTGRES_URL=postgres://postgres:postgres@localhost:5432/hw4
    ```
 5. Create `db` folder
    ```bash
