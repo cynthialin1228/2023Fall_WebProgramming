@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
-
+import * as schema from "./schema";
 import { privateEnv } from "@/lib/env/private";
 
 const client = new Client({
@@ -8,4 +8,4 @@ const client = new Client({
   connectionTimeoutMillis: 5000,
 });
 await client.connect();
-export const db = drizzle(client);
+export const db = drizzle(client, { schema });
