@@ -19,6 +19,7 @@ export const {
         .select({
           id: usersTable.displayId,
           email: usersTable.email,
+          provider: usersTable.provider,
         })
         .from(usersTable)
         .where(eq(usersTable.email, email.toLowerCase()))
@@ -30,6 +31,7 @@ export const {
           ...session.user,
           id: user.id,
           email: user.email,
+          provider: user.provider,
         },
       };
     },

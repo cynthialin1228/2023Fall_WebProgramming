@@ -1,16 +1,16 @@
 function Navbar() {
     return (
-      <div className="w-full">
+        <div className="w-full">
         <nav className="sticky top-0 w-full border bg-slate-100 p-3">Navbar</nav>
         <section>
-          {Array.from({ length: 100 }, (_, i) => (
+            {Array.from({ length: 100 }, (_, i) => (
             <div key={i} className="w-full border">
-              Content {i}
+                Content {i}
             </div>
-          ))}
+            ))}
         </section>
-      </div>
+        </div>
     );
-  }
-  
-  export default Navbar;
+}
+
+export default Navbar;
