@@ -1,11 +1,12 @@
 import { AiFillDelete, AiFillFileAdd, AiFillFileText } from "react-icons/ai";
+import { revalidatePath } from "next/cache";
 import { RxAvatar, RxPlus } from "react-icons/rx";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { createDocument, getDocuments } from "./actions";
+import { createDocument, getDocuments, deleteDocument } from "./actions";
 import { PlusIcon } from "@radix-ui/react-icons";
 
 async function Navbar() {
@@ -40,7 +41,9 @@ async function Navbar() {
             className="w-full hover:bg-slate-200"
             action={async () => {
                 "use server";
-                await createDocument(userId);
+                const newDocId = await createDocument(userId);
+                revalidatePath("/docs");
+                redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs/${newDocId}`);
             }}
         >
             <button
@@ -70,7 +73,16 @@ async function Navbar() {
                     </span>
                     </div>
                 </Link>
-                <form className="hidden px-2 text-slate-400 hover:text-red-400 group-hover:flex">
+                <form
+                    className="hidden px-2 text-slate-400 hover:text-red-400 group-hover:flex"
+                    action={async () => {
+                    "use server";
+                    const docId = doc.document.displayId;
+                    await deleteDocument(docId);
+                    revalidatePath("/docs");
+                    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
+                    }}
+                >
                     <button type={"submit"}>
                     <AiFillDelete size={16} />
                     </button>
