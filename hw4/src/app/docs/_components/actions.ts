@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { documentsTable, usersToDocumentsTable } from "@/db/schema";
 
@@ -21,3 +22,21 @@ export const createDocument = async (userId: string) => {
     });
     return newDocId;
 };
+
+export const getDocuments = async (userId: string) => {
+    "use server";
+  
+    const documents = await db.query.usersToDocumentsTable.findMany({
+      where: eq(usersToDocumentsTable.userId, userId),
+      with: {
+        document: {
+          columns: {
+            displayId: true,
+            title: true,
+          },
+        },
+      },
+    });
+    return documents;
+  };
+  
