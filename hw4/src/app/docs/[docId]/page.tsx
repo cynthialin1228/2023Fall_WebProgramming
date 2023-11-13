@@ -40,6 +40,15 @@ function DocPage() {
           Save
         </button>
       </div>
+      <section className="w-full px-4 py-4">
+        <textarea
+          value={content || ""}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+          className="h-[90vh] w-full outline-0 "
+        />
+      </section>
       </div>
     )
 }

@@ -67,7 +67,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { docId: string } },
+  { params }: { params: { documentId: string } },
 ) {
   try {
     // Get user from session
@@ -86,7 +86,7 @@ export async function PUT(
       .where(
         and(
           eq(usersToDocumentsTable.userId, userId),
-          eq(usersToDocumentsTable.documentId, params.docId),
+          eq(usersToDocumentsTable.documentId, params.documentId),
         ),
       );
     if (!doc) {
@@ -106,7 +106,7 @@ export async function PUT(
     const [updatedDoc] = await db
       .update(documentsTable)
       .set(validatedReqBody)
-      .where(eq(documentsTable.displayId, params.docId))
+      .where(eq(documentsTable.displayId, params.documentId))
       .returning();
 
     return NextResponse.json(

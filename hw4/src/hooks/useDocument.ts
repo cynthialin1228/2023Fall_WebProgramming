@@ -6,16 +6,30 @@ export const useDocument = () => {
   const { docId} = useParams();
   const documentId = Array.isArray(docId) ? docId[0] : docId;
   const [document, setDocument] = useState<Document | null>(null);
-  const [debouncedDocument] = useDebounce(document, 1000);
+  const [debouncedDocument] = useDebounce(document, 300);
   const router = useRouter();
+  useEffect(() => {
+    const updateDocument = async () => {
+      if (!debouncedDocument) return;
+      const res = await fetch(`/api/documents/${documentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: debouncedDocument.title,
+          content: debouncedDocument.content,
+        }),
+      });
+      if (!res.ok) {
+        return;
+      }
+      // Update the navbar
+      router.refresh();
+    };
+    updateDocument();
+  }, [debouncedDocument, documentId, router]);
 
-  // Experiment: See the effects of debouncing
-  useEffect(() => {
-    console.log("=======");
-  }, [document]);
-  useEffect(() => {
-    console.log("*******");
-  }, [debouncedDocument]);
 
   useEffect(() => {
     if (!documentId) return;
@@ -44,7 +58,8 @@ export const useDocument = () => {
     if (document === null) return;
     setDocument({
       ...document,
-      content: [...content, newContent],
+      // content: newContent,
+      content: newContent,
     });
   };
   return {
