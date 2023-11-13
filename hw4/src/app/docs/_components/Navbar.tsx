@@ -7,8 +7,7 @@ import { publicEnv } from "@/lib/env/public";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createDocument, getDocuments, deleteDocument } from "./actions";
-import { PlusIcon } from "@radix-ui/react-icons";
-
+import AddChatRoom from "./AddChatRoom";
 async function Navbar() {
     const session = await auth();
     if (!session || !session?.user?.id) {
@@ -26,6 +25,7 @@ async function Navbar() {
                 {session?.user?.email ?? "User"}
                 </h1>
             </div>
+            <AddChatRoom />
             <Link href={`/auth/signout`}>
                 <Button
                     variant={"ghost"}
@@ -37,23 +37,6 @@ async function Navbar() {
             </Link>
         </div>
 
-        <form 
-            className="w-full hover:bg-slate-200"
-            action={async () => {
-                "use server";
-                const newDocId = await createDocument(userId);
-                revalidatePath("/docs");
-                redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs/${newDocId}`);
-            }}
-        >
-            <button
-                type="submit"
-                className="flex w-full items-center gap-2 px-3 py-1 text-left text-sm text-slate-500"
-            >
-                <RxPlus size={16} />
-                <p>Create Chat Room</p>
-            </button>
-        </form>
         </nav>
         <section className="flex w-full flex-col pt-3">
             {documents.map((doc, i) => {
