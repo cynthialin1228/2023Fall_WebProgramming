@@ -23,14 +23,25 @@ The message will immediately show on the screen just after sending it.
 
 
 
+## Remember to create .env.local
+You may refer to .env.example
+
 ```bash
 yarn
+docker compose up -d
+yarn migrate
+yarn dev
+docker compose down
 ```
 
 ## Prettier and ESLint
 ```bash
 yarn lint
 ```
+
+Thank you for your time.
+Have a nice day.
+
 
 ## Drizzle Setup
 
