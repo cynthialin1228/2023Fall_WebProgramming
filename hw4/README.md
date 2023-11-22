@@ -10,9 +10,11 @@ The username is unique
 
 The user can see all the chat room on the first page, and can see detail message when clicking the chat room.
 
-The user can click "Add" button and type another user's name. If there is an existing chatroom, it will guide to the existing one. If there is no existing chatroom with that person, then it will create a new one.
+The user can click "Add" button on the left navbar and type another user's name. If there is an existing chatroom, it will guide to the existing one. If there is no existing chatroom with that person, then it will create a new one.
 
 User can delete chatroom and all the messages in it.
+
+User can check who he/she is talking to by clicking the Author button on the upper right of the page.
 
 While typing message, user can choose to click Send button or use "Enter" keydown to sent the message.
 
