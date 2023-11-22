@@ -1,5 +1,9 @@
 # Web Programming HW#4
 
+Thank you for your time to review. 
+This is a little guide to check the code. 
+
+
 Login with username and can sign out.
 
 The username is unique
@@ -8,8 +12,7 @@ The user can see all the chat room on the first page, and can see detail message
 
 The user can click "Add" button and type another user's name. If there is an existing chatroom, it will guide to the existing one. If there is no existing chatroom with that person, then it will create a new one.
 
-Can delete chatroom and all the messages in it.
-
+User can delete chatroom and all the messages in it.
 
 While typing message, user can choose to click Send button or use "Enter" keydown to sent the message.
 
