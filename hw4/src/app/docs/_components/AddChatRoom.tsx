@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
-import { addDocumentAuthor, getDocumentAuthors, createDocument, getDocuments, deleteDocument } from "./actions";
+import { addDocumentAuthor, getDocumentAuthors, createDocument, getDocuments } from "./actions";
 
 
 async function AddChatRoom() {
