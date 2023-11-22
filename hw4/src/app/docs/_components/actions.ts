@@ -1,6 +1,7 @@
+"use server"
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { documentsTable, usersToDocumentsTable, usersTable } from "@/db/schema";
+import { documentsTable, usersToDocumentsTable, usersTable, messagesTable, documentToMessagesTable, documentsToMessagesRelations } from "@/db/schema";
 
 export async function getDocumentAuthors(docId: string) {
   const dbAuthors = await db.query.usersToDocumentsTable.findMany({
@@ -52,8 +53,7 @@ export const createDocument = async (userId: string) => {
         const [newDoc] = await tx
             .insert(documentsTable)
             .values({
-              title: "New Chat Room",
-              content: "This is a new chat room",
+              title: "untitled",
             })
             .returning();
         await tx.insert(usersToDocumentsTable).values({
@@ -88,4 +88,19 @@ export const deleteDocument = async (documentId: string) => {
         .delete(documentsTable)
         .where(eq(documentsTable.displayId, documentId));
     return;
+};
+export const getMessage = async (displayId: string) => {
+  "use server";
+  const message = await db.query.messagesTable.findFirst({
+    where: eq(messagesTable.displayId, displayId),
+    columns: {
+      id: true,
+      documentId: true,
+      userId: true,
+      content: true,
+      timestamp: true,
+    },
+  });
+
+  return message;
 };

@@ -1,4 +1,4 @@
-import { boolean } from "drizzle-orm/mysql-core";
+import { DatetimeFsp, boolean } from "drizzle-orm/mysql-core";
 
 export type User = {
     id: string;
@@ -9,5 +9,12 @@ export type User = {
 export type Document = {
     id: string;
     title: string;
-    content: string; 
+    // content: string;
+  };
+export type  Message = {
+    id: number,
+    documentId: string,
+    userId: string,
+    content: string,
+    timestamp: Date,
   };

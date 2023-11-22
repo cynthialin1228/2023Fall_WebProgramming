@@ -1,5 +1,5 @@
-import { index, pgTable, serial, uuid, varchar, text, unique } from "drizzle-orm/pg-core";
-import {relations} from "drizzle-orm";
+import { index, pgTable, serial, uuid, varchar, text, unique, timestamp } from "drizzle-orm/pg-core";
+import {relations, sql} from "drizzle-orm";
 
 export const usersTable = pgTable(
   "users",
@@ -31,8 +31,7 @@ export const documentsTable = pgTable(
     id: serial("id").primaryKey(),
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
     title: varchar("title", { length: 100 }).notNull(),
-    content: text("content").notNull(),
-  },
+    },
   (table) => ({
     displayIdIndex: index("display_id_index").on(table.displayId),
   }),
@@ -80,6 +79,65 @@ export const usersToDocumentsRelations = relations(
     user: one(usersTable, {
       fields: [usersToDocumentsTable.userId],
       references: [usersTable.displayId],
+    }),
+  }),
+);
+
+export const messagesTable = pgTable(
+  "messages",
+  {
+    id: serial("id").primaryKey(),
+    displayId: uuid("display_id").defaultRandom().notNull().unique(),
+    documentId: uuid("document_id").notNull(),
+    userId: uuid("user_id").notNull(),
+    content: text("content").notNull(),
+    timestamp: timestamp("timestamp").notNull().default(sql`now()`),
+  },
+  (table) => ({
+    documentIdIndex: index("document_id_index").on(table.displayId),
+  }),
+);
+
+export const documentToMessagesTable = pgTable(
+  "document_to_messages",
+  {
+    id: serial("id").primaryKey(),
+    documentId: uuid("document_id")
+      .notNull()
+      .references(() => documentsTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    messageId: uuid("message_id")
+      .notNull()
+      .references(() => messagesTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+  },
+  (table) => ({
+    documentAndMessageIndex: index("document_and_message_index").on(
+      table.documentId,
+      table.messageId,
+    ),
+    uniqCombination: unique().on(table.documentId, table.messageId),
+  }),
+);
+
+export const messagesRelations = relations(messagesTable, ({ many }) => ({
+  documentsToMessagesTable: many(documentToMessagesTable),
+}));
+
+export const documentsToMessagesRelations = relations(
+  documentToMessagesTable,
+  ({ one }) => ({
+    document: one(documentsTable, {
+      fields: [documentToMessagesTable.documentId],
+      references: [documentsTable.displayId],
+    }),
+    message: one(messagesTable, {
+      fields: [documentToMessagesTable.messageId],
+      references: [messagesTable.displayId],
     }),
   }),
 );

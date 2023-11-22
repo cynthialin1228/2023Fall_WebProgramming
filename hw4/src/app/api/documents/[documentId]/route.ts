@@ -1,10 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { documentsTable, usersToDocumentsTable } from "@/db/schema";
+import { documentsTable, usersToDocumentsTable, messagesTable, documentToMessagesTable} from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { updateDocSchema } from "@/validators/updateDocument";
-
+import { Document, Message } from "@/lib/types/db";
 // GET /api/documents/:documentId
 export async function GET(
   req: NextRequest,
@@ -35,7 +35,6 @@ export async function GET(
           columns: {
             displayId: true,
             title: true,
-            content: true,
           },
         },
       },
@@ -43,13 +42,35 @@ export async function GET(
     if (!dbDocument?.document) {
       return NextResponse.json({ error: "Doc Not Found" }, { status: 404 });
     }
+    // const dbMessages = await db.query.documentToMessagesTable.findMany({
+    //   where: eq(documentToMessagesTable.documentId, dbDocument.document.displayId),
+    // });
 
-    const document = dbDocument.document;
+    // Check if there are no messages, return just the document details
+    // if (!dbMessages || dbMessages.length === 0) {
+    //   return NextResponse.json(
+    //     {
+    //       id: dbDocument.document.displayId,
+    //       title: dbDocument.document.title,
+    //     },
+    //     { status: 200 },
+    //   );
+    // }
+
+    // // Map messages to the desired format
+    // const messages: Message[] = dbMessages.map((message) => ({
+    //   id: message.id,
+    //   documentId: message.documentId,
+    //   userId: message.userId,
+    //   content: message.content,
+    //   timestamp: message.timestamp,
+    // }));
+
     return NextResponse.json(
       {
-        id: document.displayId,
-        title: document.title,
-        content: document.content,
+        id: dbDocument.document.displayId,
+        title: dbDocument.document.title,
+        // messages,
       },
       { status: 200 },
     );
@@ -95,25 +116,37 @@ export async function PUT(
 
     // Parse the request body
     const reqBody = await req.json();
-    let validatedReqBody: Partial<Omit<Document, "id">>;
+    let validatedReqBody: Partial<Omit<Document, "id">> & { messageContent?: string };
     try {
       validatedReqBody = updateDocSchema.parse(reqBody);
     } catch (error) {
       return NextResponse.json({ error: "Bad Request" }, { status: 400 });
     }
 
-    // Update document
     const [updatedDoc] = await db
       .update(documentsTable)
-      .set(validatedReqBody)
+      .set({title: validatedReqBody.title,})
       .where(eq(documentsTable.displayId, params.documentId))
       .returning();
-
+    // let newMessage: any; // Define newMessage with an 'any' type
+    // Check if there's message content to add
+    // if (validatedReqBody.messageContent) {
+    //   newMessage = await db.insert(messagesTable).values({
+    //     documentId: params.documentId,
+    //     userId: userId,
+    //     content: validatedReqBody.messageContent,
+    //   });
+    //   await db.insert(documentToMessagesTable).values({
+    //     documentId: newMessage[0].documentId, 
+    //     messageId: newMessage[0].messageId, 
+    //   });
+    // }
+    
     return NextResponse.json(
       {
         id: updatedDoc.displayId,
         title: updatedDoc.title,
-        content: updatedDoc.content,
+        // message: newMessage,
       },
       { status: 200 },
     );
