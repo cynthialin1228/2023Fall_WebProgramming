@@ -1,12 +1,12 @@
-import { AiFillDelete, AiFillFileAdd, AiFillFileText } from "react-icons/ai";
+import { AiFillDelete, AiFillFileText } from "react-icons/ai";
 import { revalidatePath } from "next/cache";
-import { RxAvatar, RxPlus } from "react-icons/rx";
+import { RxAvatar } from "react-icons/rx";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { createDocument, getDocuments, deleteDocument } from "./actions";
+import { getDocuments, deleteDocument } from "./actions";
 import AddChatRoom from "./AddChatRoom";
 async function Navbar() {
     const session = await auth();

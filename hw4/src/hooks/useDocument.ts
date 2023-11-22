@@ -59,7 +59,7 @@ export const useDocument = () => {
     setDocument({
       ...document,
       // content: newContent,
-      content: newContent,
+      content: content + "\n" + newContent,
     });
   };
   return {

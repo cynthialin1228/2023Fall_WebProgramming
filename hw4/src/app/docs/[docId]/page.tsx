@@ -7,8 +7,14 @@ function DocPage() {
   const { title, setTitle, content, setContent } = useDocument();
   const [textareaValue, setTextareaValue] = useState("");
   const handleButtonClick = () => {
-    setContent(textareaValue); // Append the t extarea value to the content array
+    setContent(textareaValue); // Append the textarea value to the content array
     setTextareaValue(""); // Optionally clear the textarea after adding the content
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevents the default action of the enter key (e.g., form submission)
+      handleButtonClick();
+    }
   };
   return (
     <div className="w-full">
@@ -22,7 +28,7 @@ function DocPage() {
               className="rounded-lg px-2 py-1 text-slate-700 outline-0 focus:bg-slate-100"
         />
       </nav>
-      <section className="w-full px-4 py-4 rounded">
+      <section className="w-full px-4 py-4 rounded" style={{ whiteSpace: 'pre-wrap' }}>
         <text>{content}</text>
       </section>
 
@@ -31,7 +37,8 @@ function DocPage() {
             value={textareaValue}
             onChange={(e) => setTextareaValue(e.target.value)}
             className="rounded w-full outline-0"
-            placeholder="Enter content here"
+            onKeyDown={handleKeyDown}
+            placeholder="Enter content here and click enter to save"
         />
         <button 
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
@@ -40,7 +47,7 @@ function DocPage() {
           Save
         </button>
       </div>
-      <section className="w-full px-4 py-4">
+      {/* <section className="w-full px-4 py-4">
         <textarea
           value={content || ""}
           onChange={(e) => {
@@ -48,7 +55,7 @@ function DocPage() {
           }}
           className="h-[90vh] w-full outline-0 "
         />
-      </section>
+      </section> */}
       </div>
     )
 }

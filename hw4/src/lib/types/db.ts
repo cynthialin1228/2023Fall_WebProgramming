@@ -1,5 +1,3 @@
-import { boolean } from "drizzle-orm/mysql-core";
-
 export type User = {
     id: string;
     email: string;

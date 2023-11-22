@@ -1,4 +1,3 @@
-import { RxAvatar } from "react-icons/rx";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
