@@ -31,6 +31,7 @@ export default function CreateProjectForm() {
 
       // TODO: 5. After creating a project, redirect to the project page
       // hint: Why are some variables unused?
+      router.push(`/projects/${newProject.id}`);
 
       // TODO: 5. end
     } catch (error) {
