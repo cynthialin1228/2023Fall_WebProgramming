@@ -20,6 +20,6 @@ export default function SignOutButton() {
       router.push("/");
     }
   }, [session, router]);
-  return <Button variant={"outline"} onClick={handleSignOut}>Sign Out</Button>;
+  return <Button data-testid="sign-out-button" variant={"outline"} onClick={handleSignOut}>Sign Out</Button>;
 }
 // TODO: 4. end
